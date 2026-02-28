@@ -1,3 +1,4 @@
+import { useState } from "react";
 import logo from "../../assets/images/logo.svg";
 
 const NavLink = ({ children }) => {
@@ -26,22 +27,71 @@ const NavIcon = ({ children }) => {
 };
 
 export const Navbar = () => {
+  const [isOpen, setIsOpen] = useState(false);
+
   const navIcons = ["Home", "Products", "custom orders"];
   const hoverIcon = `stroke-current fill-none hover:fill-orange transition`;
+
+  const handleOpen = () => {
+    setIsOpen((prevState) => !prevState);
+  };
 
   return (
     <>
       <nav className="max-w-screen bg-neutral-100 hover:bg-neutral-300 p-4 mt-2 mx-4 lg:mx-40 rounded-sm flex flex-col sm:flex-row items-start sm:items-center justify-between shadow-lg">
-        {/*logo container */}
-        <div className="flex items-center gap-2">
-          <img
-            src={logo}
-            className="h-10 w-auto rounded-3xl object-contain hover:opacity-80 transition-opacity"
-            alt="Company logo"
-          />
-          <span className="text-xl font-caveat font-bold text-orange">
-            crochetLove
-          </span>
+        {/*Header wrapper: Logo + hamburger */}
+        <div className="flex items-center justify-between w-full sm:w-auto">
+          {/*logo container */}
+          <div className="flex items-center gap-2">
+            <img
+              src={logo}
+              className="h-10 w-auto rounded-3xl object-contain hover:opacity-80 transition-opacity"
+              alt="Company logo"
+            />
+            <span className="text-xl font-caveat font-bold text-orange">
+              crochetLove
+            </span>
+          </div>
+
+          {/* Hamburger Buton (shown on mobile only) */}
+          <div className="flex items-center sm:hidden">
+            <button
+              className="text-gray-500 hover:text-orange focus:outline-none"
+              onClick={handleOpen}
+            >
+              {isOpen ? (
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={1.5}
+                  stroke="currentColor"
+                  className="size-8"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+                  />
+                </svg>
+              ) : (
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke-width="1.5"
+                  stroke="currentColor"
+                  className="size-8"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
+                  />
+                </svg>
+              )}
+            </button>
+          </div>
         </div>
 
         {/*Desktop view */}
@@ -87,14 +137,18 @@ export const Navbar = () => {
 
         {/** Mobile view */}
         {/*Navigation links */}
-        <div className="items-center gap-2 font-bold sm:hidden mt-4 sm:mt-0">
+        <div
+          className={`${isOpen ? "block" : "hidden"} items-center gap-2 font-bold sm:hidden mt-4 sm:mt-0`}
+        >
           {navIcons.map((item) => (
             <NavLink key={item}>{item}</NavLink>
           ))}
         </div>
 
         {/*Icons */}
-        <div className="items-center gap-4 font-bold sm:hidden flex mt-4 sm:mt-0">
+        <div
+          className={`${isOpen ? "flex" : "hidden"} items-center gap-4 font-bold sm:hidden mt-4 sm:mt-0`}
+        >
           <NavIcon>
             <svg
               fill="none"
