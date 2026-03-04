@@ -14,6 +14,8 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 
+import reviewImage from "../../../assets/images/review.jpg";
+
 export default function ScrollHorizontal() {
   const containerRef = useRef(null);
   const { scrollYProgress } = useScroll({
@@ -44,26 +46,23 @@ export default function ScrollHorizontal() {
                   "--item-color": item.color,
                 }}
               >
-                <Card className="relative mx-auto w-full max-w-sm pt-0">
+                <Card className="relative w-full max-w-sm pt-0">
                   <div className="absolute inset-0 z-30 aspect-video bg-black/35" />
                   <img
-                    src="https://avatar.vercel.sh/shadcn1"
-                    alt="Event cover"
+                    src={reviewImage}
+                    alt="Review cover"
                     className="relative z-20 aspect-video w-full object-cover brightness-60 grayscale dark:brightness-40"
                   />
                   <CardHeader>
                     <CardAction>
-                      <Badge variant="secondary">Featured</Badge>
+                      <Badge variant="secondary">
+                        {/** Add stars for review */}
+                        Featured
+                      </Badge>
                     </CardAction>
-                    <CardTitle>Design systems meetup</CardTitle>
-                    <CardDescription>
-                      A practical talk on component APIs, accessibility, and
-                      shipping faster.
-                    </CardDescription>
+                    <CardDescription>{item.review}</CardDescription>
+                    <CardTitle className="italic">{item.name}</CardTitle>
                   </CardHeader>
-                  <CardFooter>
-                    <Button className="w-full">View Event</Button>
-                  </CardFooter>
                 </Card>
               </div>
             ))}
@@ -89,7 +88,7 @@ function StyleSheet() {
             }
 
             .scroll-container {
-                height: 300vh;
+                height: 200vh;
                 position: relative;
             }
 
