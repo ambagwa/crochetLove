@@ -3,6 +3,8 @@ import FeaturedProducts from "../components/sections/featured_products/FeaturedP
 import About from "@/components/sections/about/About";
 import WhyChooseUs from "@/components/sections/why_choose_us/WhyChooseUs";
 import CustomerReviews from "@/components/sections/customer_reviews/CustomerReviews";
+import CustomOrder from "@/components/sections/custom_order/CustomOrder";
+import Footer from "@/components/sections/footer/Footer";
 
 const Home = () => {
   return (
@@ -12,6 +14,8 @@ const Home = () => {
       <About />
       <WhyChooseUs />
       <CustomerReviews />
+      <CustomOrder />
+      <Footer />
     </div>
   );
 };
