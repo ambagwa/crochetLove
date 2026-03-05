@@ -3,7 +3,7 @@ import RightSection from "./RightSection";
 
 const About = () => {
   return (
-    <div className="mt-1o gap-4 grid grid-cols-1 sm:grid-cols-2">
+    <div className="mt-5 sm:mt-20 gap-4 grid grid-cols-1 sm:grid-cols-2">
       <LeftSection />
       <RightSection />
     </div>

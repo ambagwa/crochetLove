@@ -5,8 +5,8 @@ import Column3 from "./Column3";
 
 const Footer = () => {
   return (
-    <div className="p-5 mt-5 text-center sm:text-start bg-orange-400">
-      <h1 className=" mni9text-center text-3xl sm:text-5xl font-bold">Quick Links</h1>
+    <div className="p-5 mt-5 text-center sm:text-start bg-orange-100">
+      <h1 className="mb-7 text-center text-3xl sm:text-5xl font-bold">Quick Links</h1>
 
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         {/** Column 1 */}
@@ -17,6 +17,12 @@ const Footer = () => {
 
         {/** Column 3 */}
         <Column3 />
+      </div>
+
+
+      <div className="flex items-center flex-col my-5">
+        <p className="text-lg">@crochetLove. All rights reserved. 2026</p>
+        <p className="text-lg">Curated with love just for you</p>
       </div>
     </div>
   );

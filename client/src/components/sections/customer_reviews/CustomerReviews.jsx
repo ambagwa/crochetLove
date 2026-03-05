@@ -30,7 +30,7 @@ export default function ScrollHorizontal() {
   return (
     <div id="example">
       <section className="intro-section">
-        <h1 className="text-gray-600 font-bold text-6xl text-center mt-16">
+        <h1 className="text-gray-600 font-bold text-6xl text-center mt-16 -mb-20">
           Customer Reviews
         </h1>
       </section>
@@ -96,7 +96,7 @@ function StyleSheet() {
                 position: sticky;
                 top: 0;
                 height: 100vh;
-                width: 400px;
+                width: 400px; 
                 margin: 0 auto;
                 display: flex;
                 align-items: center;

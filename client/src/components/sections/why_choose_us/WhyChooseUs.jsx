@@ -65,13 +65,13 @@ const WhyChooseUs = () => {
   ];
 
   return (
-    <div className="bg-cobalt-400 relative px-6 pb-28 overflow-hidden -mx-6 sm:-mx-40 sm:px-40 pt-8">
-      <p className="font-bold text-3xl sm:text-6xl pb-4 underline text-center text-gray-100">
+    <div className="bg-cobalt-400 relative px-6 pb-28 opacity-80 overflow-hidden -mx-6 sm:-mx-40 sm:px-40 pt-8 mt-20">
+      <p className="font-bold text-3xl sm:text-6xl py-4 underline text-center text-gray-100">
         Why choose us
       </p>
 
       <motion.div
-        className="grid grid-cols-1 sm:grid-cols-3 mt-5 gap-4 items-stretch"
+        className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-8 items-stretch mb-10 mt-15"
         variants={containerVariants}
         initial="hidden"
         whileInView="visible"

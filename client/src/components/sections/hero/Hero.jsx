@@ -5,7 +5,7 @@ const Hero = () => {
   return (
     <>
       <>
-        <div className="grid grid-cols-1 sm:grid-cols-5 gap-4 pt-10 mt-20">
+        <div className="grid grid-cols-1 sm:grid-cols-5 gap-4 pt-10 mt-5 sm:mt-20">
           {/*Left hero section */}
           <div className="py-10 sm:col-span-3 order-2 sm:order-1">
             <HeroText />

@@ -97,13 +97,14 @@ justify-between shadow-lg"
             </button>
           </div>
         </div>
+
         {/*Desktop view */}
         {/*Navigation links */}
         <div className="items-center gap-2 font-bold hidden sm:flex">
           {navIcons.map((item) => (
             <NavLink key={item}>{item}</NavLink>
           ))}
-        </div>
+        </div> 
         {/*Icons */}
         <div className="items-center gap-4 font-bold hidden sm:flex">
           <NavIcon>

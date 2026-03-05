@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 
 const Column3 = () => {
   return (
-    <div className="text-white py-2">
+    <div className="py-2 flex flex-col mx-auto">
       <p className="text-2xl font-medium">Get in Touch</p>
       <div className="flex my-3 text-center gap-2">
         <Button size="icon">{/*PPhone icon*/}</Button>

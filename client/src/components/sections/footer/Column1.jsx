@@ -3,8 +3,8 @@ import React from "react";
 
 const Column1 = () => {
   return (
-    <div className="hidden sm:block text-white py-2">
-      <p className="text-xl my-1">CrochetLove</p>
+    <div className="hidden sm:block py-2">
+      <p className="text-xl mt-3 mb-1">CrochetLove</p>
       <p className="text-sm my-3">
         Home of your customized designs. Quality. Assurance. Timely Deliveries
       </p>

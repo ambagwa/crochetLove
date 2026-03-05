@@ -21,7 +21,7 @@ const WhyCard = ({ number, children }) => {
   return (
     <motion.div variants={cardVariants} className="bg-gray-100 rounded-xl h-full flex">
       <div className="grid grid-cols-3 gap-2 w-full">
-        <div className="col-span-3 sm:col-span-2 py-4 ps-4 flex items-center">
+        <div className="col-span-3 sm:col-span-2 py-4 ps-4 sm:flex items-center">
           <p className="text-2xl sm:text-3xl text-center sm:text-start font-caveat font-medium">
             {children}
           </p>
