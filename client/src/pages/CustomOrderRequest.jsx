@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 export const CustomOrderRequest = () = {
 	const process = [
 	  "Submit your request with details",
@@ -6,6 +8,18 @@ export const CustomOrderRequest = () = {
 	  "Create a custom piece",
 	  "Pay the balance and have your order shipped"
 	];
+
+	const [formData, setFormData] = useState({
+	  name: "",
+	  phoneNumber: "",
+	  email: "",
+	  description: "",
+	  photos: "",
+	});
+
+	const handleDataChange = e => {
+	  setFormData(prevState => {...prevState, name: e.target.value});
+	};
 
   return (
 	  <div className="m-10">
@@ -27,12 +41,12 @@ export const CustomOrderRequest = () = {
 	  {/* Form*/}
 	  <form>
 	    <label htmlFor="name">Your name:</label>
-	    <input type="text" id="name" />
-	    <label htmlFor="contact">Phone Number:</label>                                                                                                                                                                     <input type="number" id="name" /> 
+	    <input type="text" id="name" onChange={handleDataChange} />
+	    <label htmlFor="contact">Phone Number:</label>                                                                                                                                                                     <input type="number" id="name" onChange={handleDataChange} /> 
 	    <label htmlFor="email">Email Address</label>
-	    <input type="email" id="email" />
+	    <input type="email" id="email" onChange={handleDataChange} />
 	    <label htmlFor="description">Describe your custom order</label>
-	    <textarea id="description" rows="10" placeholder="Include details like: size, color, purpose, any special requests"></textarea> 
+	    <textarea id="description" rows="10" placeholder="Include details like: size, color, purpose, any special requests" onChange={handleDataChange}></textarea> 
 	    <label htmlFor="photos">Upload reference image</label>
 	    <input id="photos" type="image" />
 
