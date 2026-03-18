@@ -17,9 +17,51 @@ export const CustomOrderRequest = () = {
 	  photos: "",
 	});
 
+	const [error, settError] = useState({
+	  name: "",
+	  phoneNumber: "",
+	  email: "",
+	  description: "",
+	  photos: "",
+	});
+
 	const handleDataChange = e => {
-	  setFormData(prevState => {...prevState, name: e.target.value});
+	  const { name, value } = e.target;
+	  setFormData(prevState => {...prevState, [name]: value});
+
+	  // Clear error as user inputs data
+	  setError(prevError => ({ ...prevError, [name]: ""}));
 	};
+
+	// Clear inputs
+	const clearInputs = () => {
+	  setFormData(name: "", phoneNumber: "", description: "", photos: "");
+	}
+
+	// Check for errors
+	const checkErrors = () => {
+	  let isValid = true;
+	  const newErrors = {
+		            name: "",
+		            phoneNumber: "",
+		            description: "",
+		            photos: "",
+		          };
+	  if (!formData.name.trim()) {
+	    newErrors.name = "Name is required";
+	    isValid = false;
+	  }
+
+	  if (!formData.email.trim()) {
+	    newErrors.email = "Email is required";
+	  isValid = false;
+	  } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+	    mewErrors.email = "Invalid email format";
+		  invalid = false;
+	  }
+
+	  // Check for phoneNumber, description, and photos
+	}
 
   return (
 	  <div className="m-10">
