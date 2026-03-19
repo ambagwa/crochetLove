@@ -1,3 +1,5 @@
+// Import Label, Imput from the shadCN
+
 import { useState } from "react";
 
 export const CustomOrderRequest = () = {
@@ -82,9 +84,62 @@ export const CustomOrderRequest = () = {
 
 	  {/* Form*/}
 	  <form>
-	    <label htmlFor="name">Your name:</label>
-	    <input type="text" id="name" onChange={handleDataChange} />
-	    <label htmlFor="contact">Phone Number:</label>                                                                                                                                                                     <input type="number" id="name" onChange={handleDataChange} /> 
+	    {/*Name input*/}
+	  <div className="space-y-1">
+	    <label htmlFor="name" className="text-[12px] font-medium">Your name:</label>
+	    <input 
+	  	type="text" 
+	  	id="name"
+	  	className={`h-8 text-xs transition-all duration-400 ease-in-out ${
+			error.name ? "border-red-500 ring-1 ring-red-300 focus:ring-red-400 animate-glow"
+			: "border-gray-300 focus:ring-1 focus:ring-blue-500"
+		}`}
+	  	value={formData.name}
+	  	onChange={handleDataChange} />
+
+	    {/*Name error display*/}
+i	    <div className={`transition-all duration-400 overflow-hidden ${
+		error.name
+		    ? "max-h-10 opacity-100 translate-y-0"
+		    : "max-h-0 opacity-0 -translate-y-1"
+	    }`}>
+		{" "}
+	  	{error.name && (
+			<p className="text-red-500 text-[10px] mt-1">
+				{error.name}
+			</p>
+		)}
+	    </div>
+	  </div>
+
+	  {/*Phone number input*/}
+	  <div classname="space-y-1>
+	    <label htmlFor="contact" className="text-[12px] font-medium">Phone Number:</label>                                                          
+	    <input 
+	  	type="number" 
+	  	id="name" 
+	  	onChange={handleDataChange}
+	  	value={formData.phoneNumber}
+	  	className={`h-8 text-xs transition-all duration-400 ease-in-out ${
+		  error.phoneNumber 
+			? "border-red-500 ring-1 ring-red-300 focus:ring-red-400 animate-glow"
+			: "border-gray-300 focus:ring-1 focus:ring-blue-500"
+		}`}
+	  	/> 
+
+	  	{/*Phone number error display */}
+	  	<div className={`transition-all duration-400 overflow-hidden ${
+			error.phoneNumber
+			  ? "max-h-10 opacity-100 translate-y-0"
+			                        : "max-h-0 opacity-0 -translate-y-1"
+		}`}>
+		  {" "}
+	  	  {error.phoneNumber && (
+			<p classsName="text-red-500 text-[10px] mt-1">{error.phoneNumber}</p>
+		  )}
+	  	</div>
+	  </div>
+
 	    <label htmlFor="email">Email Address</label>
 	    <input type="email" id="email" onChange={handleDataChange} />
 	    <label htmlFor="description">Describe your custom order</label>
