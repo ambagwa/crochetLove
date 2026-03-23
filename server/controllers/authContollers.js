@@ -4,9 +4,9 @@ const jwt = require("jsonwebtoken");
 
 exports.register = async (req, res) => { 
   try {
-    const { username, email, password } = req.body;
+    const { username, email, password, phoneNumber } = req.body;
 
-    if (!username || !email || !password)
+    if (!username || !email || !password  || !phoneNumber)
       return res.status(400).json({ error: "Missing credentials" });
 
     // Check if user already exists by email
@@ -31,6 +31,7 @@ exports.register = async (req, res) => {
       username,
       email,
       password: hashedPassword,
+      phoneNumber,
       role: role,
     });
 
