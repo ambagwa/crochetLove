@@ -3,19 +3,23 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useState } from "react";
 import { toast } from "sonner";
-import logo from "../../public/logo.svg";
+import logo from "../assets/images/logo.svg";
+import API from "../services/api";
+import { Spinner } from "@/components/ui/spinner";
 
 export const Register = () => {
   const [formData, setFormData] = useState({
     username: "",
     email: "",
     password: "",
+    phone: "",
   });
 
   const [error, setError] = useState({
     username: "",
     email: "",
     password: "",
+    phone: "",
   });
   const [passwordStrength, setPasswordStrength] = useState(0);
   const [loading, setLoading] = useState(false);
@@ -32,41 +36,52 @@ export const Register = () => {
 
   const handleDataChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prevData) => ({ ...prevData, [name]: value }));
+
+    const updatedData = { ...formData, [name]: value };
+
+    setFormData(updatedData);
 
     // Check password strength
     if (name === "password") setPasswordStrength(checkPasswordStrength(value));
 
-    // Clear error when user types
-    setError((prevError) => ({ ...prevError, [name]: "" }));
+    // Validate inputs in real time
+    checkErrors(updatedData);
   };
 
   // Clear inputs
   const clearInputs = () =>
-    setFormData({ username: "", email: "", password: "" });
+    setFormData({ username: "", email: "", password: "", phone: "" });
 
   // Check for errors
-  const checkErrors = () => {
+  const checkErrors = (data = formData) => {
     let newError = { username: "", email: "", password: "" };
     let isValid = true;
 
-    if (!formData.username.trim()) {
+    if (!data.username.trim()) {
       newError.username = "Please provide your username";
       isValid = false;
     }
 
-    if (!formData.email.trim()) {
+    if (!data.email.trim()) {
       newError.email = "Please provide your email";
       isValid = false;
-    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+    } else if (!/\S+@\S+\.\S+/.test(data.email)) {
       newError.email = "Invalid email format";
       isValid = false;
     }
 
-    if (!formData.password.trim()) {
+    if(!data.phone.trim()) {
+      newError.phone = "Please provide your phone number";
+      isValid = false;
+    } else if (!/^(?:\+254|0)[17]\d{8}$/.test(data.phone)) {
+      newError.phone = "Invalid phone number";
+      isValid = false;
+    }
+
+    if (!data.password.trim()) {
       newError.password = "Please provide a strong password";
       isValid = false;
-    } else if (formData.password.length < 6) {
+    } else if (data.password.length < 6) {
       newError.password = "Password MUST be at least 6 characters";
       isValid = false;
     }
@@ -87,8 +102,8 @@ export const Register = () => {
         username: formData.username,
         email: formData.email,
         password: formData.password,
+        phoneNumber: formData.phone,
         role: "customer",
-        // Add phone number implementation
       });
 
       // Check if token exiats in response
@@ -133,7 +148,7 @@ export const Register = () => {
         </div>
 
         {/* Registration form */}
-        <form onSumbit="handleFormSubmission" className="space-y-3">
+        <form onSubmit={handleFormSubmission} className="space-y-3">
           {/* Username input */}
           <div className="space-y-1">
             <Label htmlFor="username" className="font-normal text-md">
@@ -142,10 +157,9 @@ export const Register = () => {
             <Input
               id="username"
               name="username"
-              required
               value={formData.username}
               onChange={handleDataChange}
-              placeholder="Eugene Ambagwa"
+              placeholder="enga"
               className={`h-8  text-sm transition-all duration-400 ease-in-out ${
                 error.username
                   ? "border-red-500 ring-1 ring-red-300 focus:ring-red-400 animate-glow"
@@ -181,7 +195,6 @@ export const Register = () => {
               name="email"
               placeholder="eugeneambagwa@gmail.com"
               onChange={handleDataChange}
-              required
               className={`h-8 text-sm transition-all duration-400 ease-in-out ${
                 error.email
                   ? "border-red-500 ring-1 ring-red-300 focus:ring-red-400 animate-glow"
@@ -204,6 +217,38 @@ export const Register = () => {
             </div>
           </div>
 
+          {/** Phone number input */}
+          <div className="space-y-1">
+            <Label htmlFor="phone" className="font-normal text-md">
+              Phone Number
+            </Label>
+            <Input
+              id="phone"
+              name="phone"
+              value={formData.phone}
+              onChange={handleDataChange}
+              placeholder="e.g. 0712345678"
+              className={`h-8 text-sm transition-all duration-400 ease-in-out ${
+                error.phone
+                  ? "border-red-500 ring-1 ring-red-300 focus:ring-red-400"
+                  : "border-gray-300 focus:ring-1 focus:ring-blue-500"
+              }`}
+            />
+
+            {/* Phone error */}
+            <div
+              className={`transition-all duration-400 overflow-hidden ${
+                error.phone
+                  ? "max-h-10 opacity-100 translate-y-0"
+                  : "max-h-0 opacity-0 -translate-y-1"
+              }`}
+            >
+              {error.phone && (
+                <p className="text-red-500 text-[10px] mt-1">{error.phone}</p>
+              )}
+            </div>
+          </div>
+
           {/* Password input */}
           <div className="space-y-1">
             <Label htmlFor="password" className="font-normal text-md">
@@ -212,7 +257,6 @@ export const Register = () => {
             <Input
               id="password"
               name="password"
-              required
               value={formData.password}
               onChange={handleDataChange}
               type="password"
@@ -275,9 +319,8 @@ export const Register = () => {
             variant="orange"
             className="w-full h-8 text-md font-medium"
             type="submit"
-            onClick={handleFormSubmission}
           >
-            Register
+            {loading ? <Spinner /> : "Register"}
           </Button>
 
           <div className="text-center">
