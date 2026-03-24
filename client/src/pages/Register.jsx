@@ -70,7 +70,7 @@ export const Register = () => {
       isValid = false;
     }
 
-    if(!data.phone.trim()) {
+    if (!data.phone.trim()) {
       newError.phone = "Please provide your phone number";
       isValid = false;
     } else if (!/^(?:\+254|0)[17]\d{8}$/.test(data.phone)) {
