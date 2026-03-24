@@ -46,7 +46,7 @@ export default function ScrollHorizontal() {
                   "--item-color": item.color,
                 }}
               >
-                <Card className="relative w-full max-w-sm pt-0">
+                <Card className="relative w-full max-w-sm pt-0 border border-orange-200 shadow-lg shadow-orange-200/50">
                   <img
                     src={item.image}
                     alt="Review cover"
@@ -54,9 +54,23 @@ export default function ScrollHorizontal() {
                   />
                   <CardHeader>
                     <CardAction>
-                      <Badge variant="secondary">
-                        {/** Add stars for review */}
-                        Featured
+                      <Badge
+                        variant="secondary"
+                        className="flex gap-1 items-center"
+                      >
+                        {[...Array(5)].map((_, i) => (
+                          <svg
+                            key={i}
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 24 24"
+                            fill={i < item.rating ? "currentColor" : "none"}
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            className="w-4 h-4 text-yellow-500"
+                          >
+                            <path d="M12 17.27L18.18 21 16.54 13.97 22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
+                          </svg>
+                        ))}
                       </Badge>
                     </CardAction>
                     <CardDescription>{item.review}</CardDescription>
@@ -180,7 +194,7 @@ function StyleSheet() {
 const items = [
   {
     id: 1,
-    color: "#ff0088",
+    rating: 5,
     label: "Night One",
     review:
       "Absolutely love my handmade blanket from CrochetLove! The detail and quality are beyond anything I expected. It’s now the centerpiece of our living room. The whole buying experience was seamless and personal — I can tell this is crafted with real care.",
@@ -190,7 +204,7 @@ const items = [
   },
   {
     id: 2,
-    color: "#dd00ee",
+    rating: 4,
     label: "Night Two",
     review:
       "This was my first time ordering a custom crochet cardigan. CrochetLove made the process effortless, and the final product fits perfectly! The yarn is soft but durable, and I get compliments everywhere I wear it. I’m already planning my next order!",
@@ -200,7 +214,7 @@ const items = [
   },
   {
     id: 3,
-    color: "#9911ff",
+    rating: 4,
     label: "Night Three",
     review:
       "I gifted my sister a crochet home decor piece from CrochetLove and she absolutely adored it. The craftsmanship is outstanding — you can truly feel the passion in every stitch. Fast delivery and lovely customer service too!",
@@ -210,7 +224,8 @@ const items = [
   },
   {
     id: 4,
-    color: "#0d63f8",
+
+    rating: 4,
     label: "Night Four",
     review:
       "CrochetLove exceeded all expectations! The designs are unique and stylish, and I appreciate the Kenyan-based craftsmanship — it feels like wearing art. I’ll definitely be recommending them to friends and family.",
@@ -220,7 +235,7 @@ const items = [
   },
   {
     id: 5,
-    color: "#0cdcf7",
+    rating: 5,
     label: "Night Five",
 
     review:
