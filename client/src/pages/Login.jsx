@@ -4,6 +4,8 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
+import logo from "../assets/images/logo.svg";
+import { Spinner } from "@/components/ui/spinner";
 
 export const Login = () => {
   const [formData, setFormData] = useState({
@@ -19,37 +21,39 @@ export const Login = () => {
   const handleFormData = (e) => {
     const { name, value } = e.target;
 
-    setFormData((prevData) => ({ ...prevData, [name]: value }));
+    const updatedData = { ...formData, [name]: value };
 
-    // Clear error as user types
-    setErrors((prevErrors) => ({ ...prevErrors, [name]: "" }));
+    setFormData(updatedData);
+
+    //Real-time validation
+    checkErrors(updatedData);
   };
 
   const clearInputs = () => {
     setFormData({ email: "", password: "" });
   };
 
-  const checkErrors = () => {
+  const checkErrors = (data = formData) => {
     let newErrors = { email: "", password: "" };
     let isValid = true;
 
-    if (!formData.email.trim()) {
+    if (!data.email.trim()) {
       newErrors.email = "Provide your email";
       isValid = false;
-    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+    } else if (!/\S+@\S+\.\S+/.test(data.email)) {
       newErrors.email = "Invalid email format";
       isValid = false;
     }
 
-    if (!formData.password.trim()) {
+    if (!data.password.trim()) {
       newErrors.password = "Provide a strong password";
       isValid = false;
-    } else if (formData.password.length < 6) {
+    } else if (data.password.length < 6) {
       newErrors.password = "Password MUST be at least 6 characters";
       isValid = false;
     }
 
-    setErrors(nnewErrors);
+    setErrors(newErrors);
     return isValid;
   };
 
@@ -100,9 +104,9 @@ export const Login = () => {
         </div>
 
         {/* Registration form */}
-        <form onsumbit={handleFormSubmission} classname="space-y-3">
+        <form onSubmit={handleFormSubmission} className="space-y-3">
           {/* email input */}
-          <div className="space-y-1">
+          <div className="space-y-2">
             <Label htmlFor="email" className="font-normal font-md">
               Email
             </Label>
@@ -111,8 +115,7 @@ export const Login = () => {
               name="email"
               value={formData.email}
               onChange={handleFormData}
-              required
-              className={`h-8 text-sm ttransition-all duration-400 ease-in-out ${
+              className={`h-8 text-sm transition-all duration-400 ease-in-out ${
                 errors.email
                   ? "border-red-500 ring-1 ring-red-300 focus:ring-red-400 animate-glow"
                   : "border-gray-300 focus:ring-1 focus:ring-blue-500"
@@ -127,6 +130,7 @@ export const Login = () => {
                   : "max-h-0 opacity-0 -translate-y-1"
               }`}
             >
+              {" "}
               {errors.email && (
                 <p className="text-red-500 text-[10px] mt-1">{errors.email}</p>
               )}
@@ -142,7 +146,6 @@ export const Login = () => {
               id="password"
               type="password"
               name="password"
-              required
               value={formData.password}
               onChange={handleFormData}
               className={`h-8 text-sm transition-all duration-400 ease-in-out ${
@@ -169,8 +172,8 @@ export const Login = () => {
           </div>
 
           <Button
-            variant="blue"
-            className="w-full h-8 text-md font-medium"
+            variant="orange"
+            className="w-full mt-3 h-8 text-md font-medium"
             type="submit"
           >
             {loading ? <Spinner /> : "Log In"}
@@ -180,7 +183,7 @@ export const Login = () => {
             <span className="text-xs text-gray-600">
               Already have an account?{" "}
               <button
-                className="text-xs text-blue-600 hover:text-blue-700 font-medium hovercursor-pointer underline underline-offset-2"
+                className="text-xs text-blue-600 hover:text-blue-700 font-medium hover:cursor-pointer underline underline-offset-2"
                 type="button"
               >
                 Register
