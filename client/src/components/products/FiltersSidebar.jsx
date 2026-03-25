@@ -1,5 +1,4 @@
-import { button } from "motion/dist/react-client";
-import React from "react";
+import React, { useState } from "react";
 
 const FiltersSidebar = ({ onFilterChange }) => {
   const [filters, setFilters] = useState({
@@ -78,7 +77,7 @@ const FiltersSidebar = ({ onFilterChange }) => {
           <input
             type="number"
             className="w-1/2 border rounded-lg px-2 py-1"
-            value={filters.maxxPrice}
+            value={filters.maxPrice}
             onChange={(e) => handleChange("maxPrice", Number(e.target.value))}
           />
         </div>
@@ -95,12 +94,43 @@ const FiltersSidebar = ({ onFilterChange }) => {
           onClick={() => handleChange("inStock", !filters.inStock)}
         >
           <div
-            className={`bg-white w-4 h-4 rounded-full shadow-md transform transition ${
-              filters.instock ? "translate-x-5" : ""
+            className={`bg-white w-3 h-3 rounded-full shadow-md transform transition ${
+              filters.inStock ? "translate-x-5" : ""
             }`}
           ></div>
         </button>
       </div>
+
+      {/** Sort */}
+      <div className="mb-5">
+        <h2 className="text-sm font-medium text-gray-600 mb-2">Sort by</h2>
+        <select
+          value={filters.sort}
+          onChange={(e) => handleChange("sort", e.target.value)}
+          className="w-full border roundedd-lg px-3 py-2 focus:ring-2 focus:ring-orange-500"
+        >
+          <option value="latest">Latest</option>
+          <option value="Low">Price: Low to High</option>
+          <option value="High">Price: High to Low</option>
+        </select>
+      </div>
+
+      {/**Reset */}
+      <button
+        className="w-full bg-gray-100 hover:bg-gray-200 hover:cursor-pointer text-gray-700 py-2 rounded-lg transition"
+        onClick={() => {
+          setFilters({
+            search: "",
+            category: "all",
+            minPrice: 0,
+            maxPrice: 5000,
+            inStock: false,
+            sort: "latest",
+          });
+        }}
+      >
+        Reset Filters
+      </button>
     </aside>
   );
 };
