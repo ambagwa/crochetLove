@@ -25,7 +25,7 @@ export const ProductCard = ({ product }) => {
     ));
   };
   return (
-    <Card className="group relative mx-auto w-full max-w-sm overflow-hidden border-none shadow-md">
+    <Card className="group relative max-w-sm overflow-hidden border-none shadow-md">
       {/** Image container */}
       <div className="relative aspect-video w-full overflow-hidden">
         {/** Stars overlay */}
@@ -55,7 +55,9 @@ export const ProductCard = ({ product }) => {
         <span className="text-lg font-bold text-orange-500">
           {product.price}
         </span>
-        <Button size="sm" variant="orange">Add to Cart</Button>
+        <Button size="sm" variant="orange">
+          Add to Cart
+        </Button>
       </CardFooter>
     </Card>
   );
