@@ -10,8 +10,17 @@ import {
 import { Badge } from "../ui/badge";
 import { Button } from "../ui/button";
 import { Star } from "lucide-react";
+import { CiHeart } from "react-icons/ci";
+import { FaHeart } from "react-icons/fa";
+import { useState } from "react";
 
 export const ProductCard = ({ product }) => {
+  const [addFavorite, setAddFavorite] = useState(false);
+
+  const handleAddFavorite = () => {
+    setAddFavorite((prevState) => !prevState);
+  };
+
   // Helper to render stars based on the number
   const renderStars = (count) => {
     return Array.from({ length: 5 }, (_, i) => (
@@ -25,7 +34,7 @@ export const ProductCard = ({ product }) => {
     ));
   };
   return (
-    <Card className="group relative max-w-sm overflow-hidden border-none shadow-md">
+    <Card className="w-fulf group relative max-w-sm overflow-hidden border border-red-500 shadow-md">
       {/** Image container */}
       <div className="relative aspect-video w-full overflow-hidden">
         {/** Stars overlay */}
@@ -52,11 +61,18 @@ export const ProductCard = ({ product }) => {
       </CardHeader>
 
       <CardFooter className="flex items-center justify-between">
-        <span className="text-lg font-bold text-orange-500">
-          {product.price}
+        <span className="text-sm sm:text-lg font-bold text-orange-500">
+          Sh. {product.price}
         </span>
         <Button size="sm" variant="orange">
           Add to Cart
+        </Button>
+        <Button size="sm" variant="ghost" onClick={handleAddFavorite}>
+          {addFavorite ? (
+            <FaHeart className="size-5" />
+          ) : (
+            <CiHeart className="size-6" />
+          )}
         </Button>
       </CardFooter>
     </Card>
