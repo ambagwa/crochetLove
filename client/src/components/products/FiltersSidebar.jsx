@@ -110,8 +110,8 @@ const FiltersSidebar = ({ onFilterChange }) => {
           className="w-full border roundedd-lg px-3 py-2 focus:ring-2 focus:ring-orange-500"
         >
           <option value="latest">Latest</option>
-          <option value="Low">Price: Low to High</option>
-          <option value="High">Price: High to Low</option>
+          <option value="low">Price: Low to High</option>
+          <option value="high">Price: High to Low</option>
         </select>
       </div>
 
@@ -119,14 +119,17 @@ const FiltersSidebar = ({ onFilterChange }) => {
       <button
         className="w-full bg-gray-100 hover:bg-gray-200 hover:cursor-pointer text-gray-700 py-2 rounded-lg transition"
         onClick={() => {
-          setFilters({
+          const resetFilters = {
             search: "",
             category: "all",
             minPrice: 0,
             maxPrice: 5000,
             inStock: false,
             sort: "latest",
-          });
+          };
+
+          setFilters(resetFilters);
+          onFilterChange && onFilterChange(resetFilters);
         }}
       >
         Reset Filters
