@@ -159,13 +159,38 @@
 }
 
 @keyframes waveFloat {
-  0% { transform: translateX(0px); }
-  50% { transform: translateX(-25px); }
-  100% { transform: translateX(0px); }
+  0% {
+    transform: translateX(0px);
+  }
+  50% {
+    transform: translateX(-25px);
+  }
+  100% {
+    transform: translateX(0px);
+  }
 }
 
 @keyframes waveFloatReverse {
-  0% { transform: translateX(0px); }
-  50% { transform: translateX(25px); }
-  100% { transform: translateX(0px); }
+  0% {
+    transform: translateX(0px);
+  }
+  50% {
+    transform: translateX(25px);
+  }
+  100% {
+    transform: translateX(0px);
+  }
+}
+
+@keyframes slide-in {
+  from {
+    transform: translateX(100%);
+  }
+  tp {
+    transform: translateX(0);
+  }
+}
+
+.animate-slide-in {
+  animation: slide-in 0.3s ease-in-out;
 }
