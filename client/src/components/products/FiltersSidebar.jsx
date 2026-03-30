@@ -33,7 +33,7 @@ const FiltersSidebar = ({ onFilterChange }) => {
   // Reusable content in both desktop and mobile
   const FilterContent = () => {
     return (
-      <>
+      <div>
         <h2 className="text-xl font-semibold mb-4 text-gray-800">
           Filter products
         </h2>
@@ -140,7 +140,7 @@ const FiltersSidebar = ({ onFilterChange }) => {
         >
           Reset Filters
         </button>
-      </>
+      </div>
     );
   };
 
@@ -155,7 +155,7 @@ const FiltersSidebar = ({ onFilterChange }) => {
       </button>
 
       {/**Desktop sidebar */}
-      <aside className="hidden md:block w-72 bg-white p-5 rounded-2xl shadow-lg sticky top-6 h-fit">
+      <aside className="hidden md:block w-64 lg:w-72 bg-white p-5 rounded-2xl shadow-lg sticky top-6 md:max-h-full lg:max-h-none overflow-y-auto">
         <FilterContent />
       </aside>
 
