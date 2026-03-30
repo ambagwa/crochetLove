@@ -85,12 +85,12 @@ export const Products = () => {
     <div className="-mt-30 pt-30 mx-4 lg:mx-40">
       <div className="grid grid-cols-5 gap-5 mt-10">
         {/** Left section */}
-        <div className="col-span-1 border border-orange-500">
+        <div className="col-span-1">
           <FiltersSidebar onFilterChange={handleFilterChange} />
         </div>
 
         {/** Right section */}
-        <div className="col-span-4 border border-orange-500 ml-30 px-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="col-span-4 ml-30 px-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredProducts.length > 0 ? (
             filteredProducts.map((p) => <ProductCard product={p} key={p.id} />)
           ) : (
