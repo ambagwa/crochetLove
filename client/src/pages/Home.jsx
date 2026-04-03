@@ -9,6 +9,7 @@ import Footer from "@/components/sections/footer/Footer";
 const Home = () => {
   return (
     <div className="-mt-30 pt-30 mx-4 lg:mx-40">
+      
       <Hero />
       <FeaturedProducts />
       <About />

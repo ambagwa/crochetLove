@@ -38,14 +38,14 @@ export const ProductCard = ({ product }) => {
     <motion.div
       whileHover={{
         scale: 1.05,
-        y: -8,
+        y: -5,
         boxShadow: "0px 10px 25px rgba(0,0,0,0.15)",
       }}
-      transition={{ type: "spring", stiffness: 300 }}
+      transition={{ type: "tween", stiffness: 100 }}
     >
-      <Card className="w-full group relative max-w-sm overflow-hidden shadow-md">
+      <Card className="w-full group relative hover:cursor-pointer max-w-none overflow-hidden shadow-md">
         {/** Image container */}
-        <div className="relative aspect-video w-full overflow-hidden">
+        <div className="relative aspect-[4/5] w-full overflow-hidden">
           {/** Stars overlay */}
           <div className="absolute top-3 right-3 z-40">
             <Badge className="flex items-center gap-1 bg-white/90 backdrop-blur-sm">
@@ -56,33 +56,37 @@ export const ProductCard = ({ product }) => {
           <img
             src={product.image}
             alt={product.name}
-            className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
+            className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-110"
           />
         </div>
 
         <CardHeader className="pt-4">
           <CardTitle>{product.name}</CardTitle>
-          <CardDescription>{product.description}</CardDescription>
-          <div className="mt-2 flex gap-2">
+          <CardDescription className="hidden md:block">
+            {product.description}
+          </CardDescription>
+          <div className="mt-2 flex gap-2 hidden md:block">
             <Badge className="bg-orange-300">Most liked</Badge>
             <Badge className="bg-orange-300">Summer</Badge>
           </div>
         </CardHeader>
 
-        <CardFooter className="flex items-center justify-between">
-          <span className="text-sm sm:text-lg font-bold text-orange-500">
+        <CardFooter className="flex flex-col flex-start">
+          <span className="text-sm sm:text-lg font-bold text-orange-500 ms-0 w-full">
             Sh. {product.price}
           </span>
-          <Button size="sm" variant="orange">
-            Add to Cart
-          </Button>
-          <Button size="sm" variant="ghost" onClick={handleAddFavorite}>
-            {addFavorite ? (
-              <FaHeart className="size-5" />
-            ) : (
-              <CiHeart className="size-6" />
-            )}
-          </Button>
+          <div className="flex justify-between w-full mt-5 hidden md:block">
+            <Button size="sm" variant="orange">
+              Add to Cart
+            </Button>
+            <Button size="sm" variant="ghost" onClick={handleAddFavorite}>
+              {addFavorite ? (
+                <FaHeart className="size-5" />
+              ) : (
+                <CiHeart className="size-6" />
+              )}
+            </Button>
+          </div>
         </CardFooter>
       </Card>
     </motion.div>

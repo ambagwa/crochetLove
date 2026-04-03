@@ -149,7 +149,7 @@ const FiltersSidebar = ({ onFilterChange }) => {
       {/**Mobile button */}
       <button
         onClick={() => setOpen(true)}
-        className="md:hidden mb-4 bg-orange-500 text-white py-2 rounded-lg"
+        className="md:hidden mb-4 bg-orange-500 text-white p-2 rounded-lg"
       >
         Filters
       </button>

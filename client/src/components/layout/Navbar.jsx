@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { useState } from "react";
 import logo from "../../assets/images/logo.svg";
 import { CiShoppingCart } from "react-icons/ci";

@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const HeroText = () => {
   return (
@@ -12,12 +13,12 @@ const HeroText = () => {
       </p>
 
       <div className="grid grid-col-1 md:grid-cols-2 gap-2 mt-6">
-        <button className="bg-orange col-span-1 font-medium text-white p-2 rounded-md border hover:bg-transparent hover:border-orange hover:border-2 hover:text-orange transition-all duration-300 hover-scale-110 hover:cursor-pointer">
+        <Link to="/products" className="bg-orange col-span-1 font-medium text-white text-center p-2 rounded-md border hover:bg-transparent hover:border-orange hover:border-2 hover:text-orange transition-all duration-300 hover-scale-110 hover:cursor-pointer">
           Shop NOW
-        </button>
-        <button className="border border-orange hover:cursor-pointer col-span-1 text-orange font-medium hover:border-2 p-2 rounded-md">
+        </Link>
+        <Link to="/custom_orders" className="border border-orange hover:cursor-pointer col-span-1 text-orange text-center font-medium hover:border-2 p-2 rounded-md">
           Custom order a design
-        </button>
+        </Link>
       </div>
     </>
   );
