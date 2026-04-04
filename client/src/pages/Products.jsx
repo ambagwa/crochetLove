@@ -2,7 +2,6 @@ import FiltersSidebar from "@/components/products/FiltersSidebar";
 import { ProductCard } from "@/components/products/ProductCard";
 import logo from "../assets/images/logo.svg";
 import { useState } from "react";
-import { Navbar } from "@/components/layout/Navbar";
 
 export const Products = () => {
   const products = [
