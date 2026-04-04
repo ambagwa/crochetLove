@@ -36,7 +36,7 @@ const NavIconLink = ({ children, to }) => {
         >
           <div
             className={`size-6 stroke-current transition-all duration-300
-          ${isActive ? "fill-orange scale-110" : "fill-none group-hover:fill-orange"}
+          ${isActive ? "fill-orange scale-110" : "fill-none"}
         `}
           >
             {children}
@@ -49,8 +49,6 @@ const NavIconLink = ({ children, to }) => {
 
 export const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const location = useLocation();
-  const navigate = useNavigate();
 
   const navItems = [
     { name: "Home", to: "/" },
@@ -145,8 +143,6 @@ export const Navbar = () => {
           {/** /wishlist icon */}
           <NavIconLink
             to={"/wishlist"}
-            isActive={location.pathname === "/wishlist"}
-            onClick={() => navigate("/wishlist")}
           >
             <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path
@@ -161,8 +157,6 @@ export const Navbar = () => {
           {/** /account Icon */}
           <NavIconLink
             to="/account"
-            isActive={location === "/account"}
-            onClick={() => navigate("/account")}
           >
             <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path
@@ -177,8 +171,6 @@ export const Navbar = () => {
           {/**Shopping Cart icon */}
           <NavIconLink
             to="/cart"
-            isActive={location === "/cart"}
-            onClick={() => navigate("/cart")}
           >
             <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path
@@ -222,8 +214,6 @@ export const Navbar = () => {
             {/** /wishlist icon */}
             <NavIconLink
               to="/wishlist"
-              isActive={location === "/wishlist"}
-              onClick={() => navigate("/wishlist")}
             >
               <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path
@@ -238,8 +228,6 @@ export const Navbar = () => {
             {/** /account Icon */}
             <NavIconLink
               to="/account"
-              isActive={location === "/account"}
-              onClick={() => navigate("/account")}
             >
               <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path
@@ -254,8 +242,6 @@ export const Navbar = () => {
             {/**Shopping Cart icon */}
             <NavIconLink
               to="/cart"
-              isActive={location === "/cart"}
-              onClick={() => navigate("/cart")}
             >
               <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path
