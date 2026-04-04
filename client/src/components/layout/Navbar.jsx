@@ -1,51 +1,62 @@
-import { Link } from "react-router-dom";
+import {
+  Navigate,
+  NavLink as RouterNavLink,
+  useLocation,
+  useNavigate,
+} from "react-router-dom";
 import { useState } from "react";
 import logo from "../../assets/images/logo.svg";
-import { CiShoppingCart } from "react-icons/ci";
 
-const NavLink = ({ children, isActive, onClick }) => {
+const NavLink = ({ children, to, onClick }) => {
   return (
-    <a
-      href="#"
-      onClick={(e) => {
-        e.preventDefault();
-        onClick();
-      }}
-      className={`px-2 py-3 sm:py-0 relative block sm:inline-block transition-colors duration-300 
+    <RouterNavLink
+      to={to}
+      onClick={onClick}
+      className={({
+        isActive,
+      }) => `px-2 py-3 sm:py-0 relative block sm:inline-block transition-colors duration-300 
             ${isActive ? "text-orange" : "hover:text-orange"}
             after:content-[''] after:absolute after:left-1/2 after:-translate-x-1/2 after:bottom-0
             after:h-[2px] after:bg-orange
             after:transition-all after:duration-300
-            ${isActive ? "after:w-full" : "hover:after:w-full"}`}
+            ${isActive ? "after:w-full" : "after:w-0 hover:after:w-full"}`}
     >
       {children}
-    </a>
+    </RouterNavLink>
   );
 };
 
-const NavIcon = ({ children, isActive, onClick }) => {
+const NavIconLink = ({ children, to }) => {
   return (
-    <button
-      onClick={onClick}
-      className={`px-2 transition-colors duration-300 focus:outline-none 
+    <RouterNavLink to={to}>
+      {({ isActive }) => (
+        <div
+          className={`px-2 transition-colors duration-300 
         ${isActive ? "text-orange" : "text-gray-500 hover:text-orange"}`}
-    >
-      <div
-        className={`size-6 stroke-current transition-all duration-300
+        >
+          <div
+            className={`size-6 stroke-current transition-all duration-300
           ${isActive ? "fill-orange scale-110" : "fill-none group-hover:fill-orange"}
         `}
-      >
-        {children}
-      </div>
-    </button>
+          >
+            {children}
+          </div>
+        </div>
+      )}
+    </RouterNavLink>
   );
 };
 
 export const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [activeLink, setActiveLink] = useState("Home");
+  const location = useLocation();
+  const navigate = useNavigate();
 
-  const navItems = ["Home", "Products", "Custom Orders"];
+  const navItems = [
+    { name: "Home", to: "/" },
+    { name: "Products", to: "/products" },
+    { name: "Custom Orders", to: "/custom_orders" },
+  ];
 
   const handleOpen = () => {
     setIsOpen((prevState) => !prevState);
@@ -118,21 +129,24 @@ export const Navbar = () => {
         <div className="items-center gap-2 font-bold hidden sm:flex capitalize">
           {navItems.map((item) => (
             <NavLink
-              isActive={activeLink === item}
-              key={item}
-              onClick={() => setActiveLink(item)}
+              to={item.to}
+              key={item.name}
+              onClick={() => {
+                setIsOpen(false);
+              }}
             >
-              {item}
+              {item.name}
             </NavLink>
           ))}
         </div>
 
         {/*Icons */}
         <div className="items-center gap-4 font-bold hidden sm:flex">
-          {/** Wishlist icon */}
-          <NavIcon
-            isActive={activeLink === "Wishlist"}
-            onClick={() => setActiveLink("Wishlist")}
+          {/** /wishlist icon */}
+          <NavIconLink
+            to={"/wishlist"}
+            isActive={location.pathname === "/wishlist"}
+            onClick={() => navigate("/wishlist")}
           >
             <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path
@@ -142,12 +156,13 @@ export const Navbar = () => {
                 d="M11.48 3.499a.562.562 0 0 1 1.04 0l2.125 5.111a.563.563 0 0 0 .475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 0 0-.182.557l1.285 5.385a.562.562 0 0 1-.84.61l-4.725-2.885a.562.562 0 0 0-.586 0L6.982 20.54a.562.562 0 0 1-.84-.61l1.285-5.386a.562.562 0 0 0-.182-.557l-4.204-3.602a.562.562 0 0 1 .321-.988l5.518-.442a.563.563 0 0 0 .475-.345L11.48 3.5Z"
               />
             </svg>
-          </NavIcon>
+          </NavIconLink>
 
-          {/** Account Icon */}
-          <NavIcon
-            isActive={activeLink === "Account"}
-            onClick={() => setActiveLink("Account")}
+          {/** /account Icon */}
+          <NavIconLink
+            to="/account"
+            isActive={location === "/account"}
+            onClick={() => navigate("/account")}
           >
             <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path
@@ -157,12 +172,13 @@ export const Navbar = () => {
                 d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"
               />
             </svg>
-          </NavIcon>
+          </NavIconLink>
 
           {/**Shopping Cart icon */}
-          <NavIcon
-            isActive={activeLink === "Cart"}
-            onClick={() => setActiveLink("Cart")}
+          <NavIconLink
+            to="/cart"
+            isActive={location === "/cart"}
+            onClick={() => navigate("/cart")}
           >
             <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path
@@ -172,7 +188,7 @@ export const Navbar = () => {
                 d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z"
               />
             </svg>
-          </NavIcon>
+          </NavIconLink>
         </div>
 
         {/** Mobile view */}
@@ -188,25 +204,26 @@ export const Navbar = () => {
           `}
         >
           <div className="flex flex-col items-center gap-4 font-bold py-6"></div>
+
           {navItems.map((item) => (
             <NavLink
-              key={item}
-              isActive={activeLink === item}
+              key={item.name}
+              to={item.to}
               onClick={() => {
-                setActiveLink(item);
                 setIsOpen(false);
               }}
             >
-              {item}
+              {item.name}
             </NavLink>
           ))}
 
           {/*Icons */}
           <div className="flex my-6 gap-4">
-            {/** Wishlist icon */}
-            <NavIcon
-              isActive={activeLink === "Wishlist"}
-              onClick={() => setActiveLink("Wishlist")}
+            {/** /wishlist icon */}
+            <NavIconLink
+              to="/wishlist"
+              isActive={location === "/wishlist"}
+              onClick={() => navigate("/wishlist")}
             >
               <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path
@@ -216,12 +233,13 @@ export const Navbar = () => {
                   d="M11.48 3.499a.562.562 0 0 1 1.04 0l2.125 5.111a.563.563 0 0 0 .475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 0 0-.182.557l1.285 5.385a.562.562 0 0 1-.84.61l-4.725-2.885a.562.562 0 0 0-.586 0L6.982 20.54a.562.562 0 0 1-.84-.61l1.285-5.386a.562.562 0 0 0-.182-.557l-4.204-3.602a.562.562 0 0 1 .321-.988l5.518-.442a.563.563 0 0 0 .475-.345L11.48 3.5Z"
                 />
               </svg>
-            </NavIcon>
+            </NavIconLink>
 
-            {/** Account Icon */}
-            <NavIcon
-              isActive={activeLink === "Account"}
-              onClick={() => setActiveLink("Account")}
+            {/** /account Icon */}
+            <NavIconLink
+              to="/account"
+              isActive={location === "/account"}
+              onClick={() => navigate("/account")}
             >
               <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path
@@ -231,12 +249,13 @@ export const Navbar = () => {
                   d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"
                 />
               </svg>
-            </NavIcon>
+            </NavIconLink>
 
             {/**Shopping Cart icon */}
-            <NavIcon
-              isActive={activeLink === "Cart"}
-              onClick={() => setActiveLink("Cart")}
+            <NavIconLink
+              to="/cart"
+              isActive={location === "/cart"}
+              onClick={() => navigate("/cart")}
             >
               <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path
@@ -246,7 +265,7 @@ export const Navbar = () => {
                   d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z"
                 />
               </svg>
-            </NavIcon>
+            </NavIconLink>
           </div>
         </div>
       </nav>
