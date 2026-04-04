@@ -1,13 +1,19 @@
-import React from 'react'
+import { Link } from "react-router-dom";
 
 const Column2 = () => {
   return (
     <div className="py-2 text-2xl">
-            <a href="#" className="block my-2 text-xl ">Home</a>
-            <a href="#" className="block my-2 text-xl">Shop All Products</a>
-            <a href="#" className="block my-2 text-xl">Custom orders</a>
-        </div>
-  )
-}
+      <Link to="/" className="block my-2 text-xl">
+        Home
+      </Link>
+      <Link to="/products" className="block my-2 text-xl">
+        Shop All Products
+      </Link>
+      <Link to="/custom_orders" className="block my-2 text-xl">
+        Custom orders
+      </Link>
+    </div>
+  );
+};
 
-export default Column2
+export default Column2;
