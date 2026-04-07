@@ -7,12 +7,26 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
-import { MdFavoriteBorder } from "react-icons/md";
+import { MdFavoriteBorder, MdFavorite } from "react-icons/md";
 import { Button } from "../ui/button";
 import { useState } from "react";
 
 export const Product = () => {
-    const [count, setCount] = useState(1);
+  const [count, setCount] = useState(1);
+  const [clickFavorite, setClickFavorite] = useState(false);
+
+  const handleAdd = () => {
+    setCount(count + 1);
+  };
+
+  const handleSubtract = () => {
+    setCount(count - 1);
+  };
+
+  const handleClickFavorite = () => {
+    setClickFavorite((prev) => !prev);
+  };
+
   const products = [
     {
       id: 1324,
@@ -25,9 +39,9 @@ export const Product = () => {
   ];
   return (
     <>
-      <div className="bg-red-100 flex flex-col md:flex-row mt-4 mx-4 lg:mx-40">
+      <div className="flex flex-col md:flex-row mt-4 mx-4 lg:mx-40">
         {/** Left section */}
-        <div className="flex flex-col">
+        <div className="flex mb-5 flex-col">
           {/** Image */}
           <div className="bg-transparent  w-full">
             <img
@@ -78,8 +92,12 @@ export const Product = () => {
               </p>
             </div>
             <div>
-              <Button variant="ghost">
-                <MdFavoriteBorder className="size-10" />
+              <Button variant="ghost" onClick={handleClickFavorite}>
+                {clickFavorite ? (
+                  <MdFavorite className="size-10" />
+                ) : (
+                  <MdFavoriteBorder className="size-10" />
+                )}
               </Button>
             </div>
           </div>
@@ -87,20 +105,29 @@ export const Product = () => {
           {/** Description and price row */}
           <div className="mt-2">
             <p className="font-normal text-xl">{products[0].description}</p>
-            <p className="mt-1 text-3xl font-bold text-orange">
+            <p className="mt-5 text-3xl font-bold text-orange">
               <span className="italic">sh.</span> {products[0].price}
             </p>
           </div>
 
           {/** Add to Cart row */}
-          <div className="mt-5 flex gap-8">
+          <div className="mt-15 flex gap-8">
             <div className="border px-2 flex border-black gap-3 rounded">
-                  <div className="p-2 text-3xl font-medium">-</div>
-                  <div className="p-2 text-3xl font-medium">{count}</div>
-                  <div className="p-2 text-3xl font-medium">+</div>
+              <button
+                onClick={handleSubtract}
+                className="p-2 text-3xl font-medium"
+              >
+                -
+              </button>
+              <div className="p-2 text-3xl font-medium">{count}</div>
+              <button onClick={handleAdd} className="p-2 text-3xl font-medium">
+                +
+              </button>
             </div>
             <div>
-                <Button variant="orange" className="p-6 text-2xl">Add to Cart</Button>
+              <Button variant="orange" className="p-6 text-2xl">
+                Add to Cart
+              </Button>
             </div>
           </div>
         </div>
