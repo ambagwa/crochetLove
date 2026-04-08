@@ -1,13 +1,17 @@
 // Import Label, Imput from the shadCN
-
-import { Navbar } from "@/components/layout/Navbar";
 import { useState } from "react";
 import crochet_image_1 from "../assets/images/crochet_image_1.jfif";
 import refPhoto2 from "../assets/images/crochet_image_2.jfif";
 import refPhoto3 from "../assets/images/crochet_image_3.jfif";
 import refPhoto4 from "../assets/images/crochet_image_4.jfif";
+import { useNavigate } from "react-router-dom";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 
 export const CustomOrderRequest = () => {
+  const navigate = useNavigate();
   const process = [
     "Submit your request with details",
     "A quotation will be sent within 24 hrs",
@@ -92,7 +96,6 @@ export const CustomOrderRequest = () => {
 
   return (
     <>
-    
       <div className="m-10">
         <p className="py-5 font-medium text-3xl sm:text-5xl">
           Custom Order Request
@@ -109,13 +112,13 @@ export const CustomOrderRequest = () => {
             </p>
 
             {/* Form*/}
-            <form>
+            <form className=" mt-8">
               {/*Name input*/}
-              <div className="space-y-1">
-                <label htmlFor="name" className="text-[12px] font-medium">
+              <div className="space-y-2">
+                <Label htmlFor="name" className="text-[20px] font-medium">
                   Your name:
-                </label>
-                <input
+                </Label>
+                <Input
                   type="text"
                   id="name"
                   className={`h-8 text-xs transition-all duration-400 ease-in-out ${
@@ -145,15 +148,15 @@ export const CustomOrderRequest = () => {
               </div>
 
               {/*Phone number input*/}
-              <div className="space-y-1">
-                <label
+              <div className="space-y-2">
+                <Label
                   htmlFor="phoneNumber"
-                  className="text-[12px] font-medium"
+                  className="text-[20px] font-medium"
                 >
                   Phone Number:
-                </label>
-                <input
-                  type="number"
+                </Label>
+                <Input
+                  type="numbert"
                   id="phoneNumber"
                   name="phoneNumber"
                   onChange={handleDataChange}
@@ -182,34 +185,81 @@ export const CustomOrderRequest = () => {
                 </div>
               </div>
 
-              <label htmlFor="email" className="text-[12px] font-medium">
-                Email Address
-              </label>
-              <input
-                type="email"
-                id="email"
-                name="email"
-                onChange={handleDataChange}
-                className="h-8 text-xs"
-              />
-              <label htmlFor="description" className="text-[12px] font-medium">
-                Describe your custom order
-              </label>
-              <textarea
-                id="description"
-                name="description"
-                rows="10"
-                placeholder="Include details like: size, color, purpose, any special requests"
-                onChange={handleDataChange}
-                className="text-xs"
-              ></textarea>
-              <label htmlFor="photos" className="text-[12px] font-medium">
-                Upload reference image
-              </label>
-              <input id="photos" name="photos" type="file" />
+              {/** Email address input */}
+              <div className="space-y-2">
+                <Label htmlFor="email" className="text-[20px] font-medium">
+                  Email Address
+                </Label>
+                <Input
+                  type="email"
+                  id="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleDataChange}
+                  className={`h-8 text-xs transition-all duration-400 ease-in-out ${
+                    error.email
+                      ? "border-red-500 ring-1 ring-red-300 focus:ring-red-400 animate-glow"
+                      : "border-gray-300 focus:ring-1 focus:ring-blue-500"
+                  }`}
+                />
 
-              <button onClick={checkErrors}>Submit</button>
+                {/*Phone number error display */}
+                <div
+                  className={`transition-all duration-400 overflow-hidden ${
+                    error.email
+                      ? "max-h-10 opacity-100 translate-y-0"
+                      : "max-h-0 opacity-0 -translate-y-1"
+                  }`}
+                >
+                  {" "}
+                  {error.email && (
+                    <p className="text-red-500 text-[10px] mt-1">
+                      {error.email}
+                    </p>
+                  )}
+                </div>
+              </div>
+
+              {/** Description data input */}
+              <div className="space-y-2">
+                <Label
+                  htmlFor="description"
+                  className="text-[20px] font-medium"
+                >
+                  Describe your custom order
+                </Label>
+                <Textarea
+                  id="description"
+                  name="description"
+                  rows={10}
+                  value={formData.textarea}
+                  placeholder="Include details like: size, color, purpose, any special requests"
+                  onChange={handleDataChange}
+                  className={`h-8 w-100 text-xs transition-all duration-400 ease-in-out ${
+                    error.phoneNumber
+                      ? "border-red-500 ring-1 ring-red-300 focus:ring-red-400 animate-glow"
+                      : "border-gray-300 focus:ring-1 focus:ring-blue-500"
+                  }`}
+                ></Textarea>
+              </div>
+
+              {/** Image data input */}
+              <div className="space-y-2">
+                <Label htmlFor="photos" className="text-[12px] font-medium">
+                  Upload reference image
+                </Label>
+                <input id="photos" name="photos" type="file" />
+              </div>
             </form>
+
+            <Button
+              variant="orange"
+              disabled={!checkErrors}
+              onClick={checkErrors}
+            >
+              Submit
+            </Button>
+            <Button variant="outline" onClick={() => navigate("/")}>Go home</Button>
           </div>
 
           {/*Right section*/}
