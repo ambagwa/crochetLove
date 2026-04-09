@@ -13,7 +13,7 @@ import { Star } from "lucide-react";
 import { CiHeart } from "react-icons/ci";
 import { FaHeart } from "react-icons/fa";
 import { useState } from "react";
-import { motion, useScroll, useTransform } from "motion/react";
+import * as motion from "motion/react-client"
 
 export const ProductCard = ({ product }) => {
   const [addFavorite, setAddFavorite] = useState(false);
