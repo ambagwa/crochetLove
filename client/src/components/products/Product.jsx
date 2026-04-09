@@ -10,10 +10,13 @@ import {
 import { MdFavoriteBorder, MdFavorite } from "react-icons/md";
 import { Button } from "../ui/button";
 import { useState } from "react";
+import { useParams } from "react-router-dom";
+import { products } from "../../assets/products";
 
 export const Product = () => {
   const [count, setCount] = useState(1);
   const [clickFavorite, setClickFavorite] = useState(false);
+  const { id } = useParams();
 
   const handleAdd = () => {
     setCount(count + 1);
@@ -27,29 +30,26 @@ export const Product = () => {
     setClickFavorite((prev) => !prev);
   };
 
-  const products = [
-    {
-      id: 1324,
-      name: "Miami vest",
-      description:
-        "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Tempora fuga quidem impedit pariatur saepe dolorum illum et, a adipisci, nobis possimus sit. Eius odio provident ea, aliquam soluta dicta omnis.",
-      price: 625,
-      src: "https://www.brogueshop.com/cdn/shop/files/DSCF1735.jpg?v=1693697126",
-    },
-  ];
+  const product = products.find((p) => p.id === Number(id));
+
+  if (!product) return <div>Product Not Found</div>;
+
   return (
     <>
       <div className="flex flex-col md:flex-row mt-4 mx-4 lg:mx-40">
+
         {/** Left section */}
         <div className="flex mb-5 flex-col">
+
           {/** Image */}
           <div className="bg-transparent  w-full">
             <img
-              src={products[0].src}
-              alt={products[0].name}
-              className="object-cover"
+              src={product.src}
+              alt={product.name}
+              className="w-full h-64 sm:h-80 md:h-96 object-cover rounded-lg"
             />
           </div>
+
           {/**Image carousel */}
           <div className="mx-auto w-3/4 mt-2">
             <Carousel opts={{ align: "start" }} className="w-full">
@@ -64,8 +64,8 @@ export const Product = () => {
                         <CardContent className="flex aspect-square items-center justify-center p-2">
                           <span className="text-sm font-semibold">
                             <img
-                              src="https://www.brogueshop.com/cdn/shop/files/DSCF1735.jpg?v=1693697126"
-                              alt={products[0].name}
+                              src={product.src}
+                              alt={product.name}
                               className="w-full object-fill"
                             />
                           </span>
@@ -84,13 +84,15 @@ export const Product = () => {
 
         {/** Right section */}
         <div className="mx-1 mt-3">
+
           {/** top row */}
           <div className="flex gap-2 justify-between">
             <div>
               <p className="text-3xl md:text-4xl font-bold">
-                {products[0].name}
+                {product.name}
               </p>
             </div>
+            
             <div>
               <Button variant="ghost" onClick={handleClickFavorite}>
                 {clickFavorite ? (
@@ -104,9 +106,9 @@ export const Product = () => {
 
           {/** Description and price row */}
           <div className="mt-2">
-            <p className="font-normal text-xl">{products[0].description}</p>
+            <p className="font-normal text-xl">{product.description}</p>
             <p className="mt-5 text-3xl font-bold text-orange">
-              <span className="italic">sh.</span> {products[0].price}
+              <span className="italic">sh.</span> {product.price}
             </p>
           </div>
 
