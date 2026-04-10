@@ -13,9 +13,9 @@ import { Star } from "lucide-react";
 import { CiHeart } from "react-icons/ci";
 import { FaHeart } from "react-icons/fa";
 import { useState } from "react";
-import * as motion from "motion/react-client"
+import * as motion from "motion/react-client";
 
-export const ProductCard = ({ product }) => {
+export const ProductCard = ({ product, onClick }) => {
   const [addFavorite, setAddFavorite] = useState(false);
 
   const handleAddFavorite = () => {
@@ -43,7 +43,10 @@ export const ProductCard = ({ product }) => {
       }}
       transition={{ type: "tween", stiffness: 100 }}
     >
-      <Card className="w-full group relative hover:cursor-pointer max-w-none overflow-hidden shadow-md">
+      <Card
+        onClick={onClick}
+        className="w-full group relative hover:cursor-pointer max-w-none overflow-hidden shadow-md"
+      >
         {/** Image container */}
         <div className="relative aspect-[4/5] w-full overflow-hidden">
           {/** Stars overlay */}
@@ -54,7 +57,7 @@ export const ProductCard = ({ product }) => {
           </div>
 
           <img
-            src={product.image}
+            src={product.images[0]}
             alt={product.name}
             className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-110"
           />
@@ -66,8 +69,11 @@ export const ProductCard = ({ product }) => {
             {product.description}
           </CardDescription>
           <div className="mt-2 flex gap-2 hidden md:block">
-            <Badge className="bg-orange-300">Most liked</Badge>
-            <Badge className="bg-orange-300">Summer</Badge>
+            {product.badges.map((badge, index) => (
+              <Badge className="bg-orange-300 me-1" key={index}>
+                {badge}
+              </Badge>
+            ))}
           </div>
         </CardHeader>
 
