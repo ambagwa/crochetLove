@@ -6,6 +6,8 @@ import { Login } from "./pages/Login";
 import { Products } from "./pages/Products";
 import { Register } from "./pages/Register";
 import { CustomOrderRequest } from "./pages/CustomOrderRequest";
+import Test from "./pages/Test";
+import { Product } from "./components/products/Product";
 
 const App = () => {
   return (
@@ -13,12 +15,17 @@ const App = () => {
       <Toaster position="top-center" richColors />
 
       <Navbar />
+      {/** 
+      <CustomOrderRequest /> */}
+
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="products" element={<Products />} />
+        <Route path="products/:id" element={<Product />} />
         <Route path="register" element={<Register />} />
         <Route path="login" element={<Login />} />
         <Route path="custom_orders" element={<CustomOrderRequest />} />
+        <Route path="*" element={<Test />} />
       </Routes>
     </>
   );
