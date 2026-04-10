@@ -11,7 +11,7 @@ import { MdFavoriteBorder, MdFavorite } from "react-icons/md";
 import { Button } from "../ui/button";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
-import { products } from "../../assets/products";
+import { products } from "../../assets/data/products";
 
 export const Product = () => {
   const [count, setCount] = useState(1);
@@ -37,14 +37,12 @@ export const Product = () => {
   return (
     <>
       <div className="flex flex-col md:flex-row mt-4 mx-4 lg:mx-40">
-
         {/** Left section */}
         <div className="flex mb-5 flex-col">
-
           {/** Image */}
           <div className="bg-transparent  w-full">
             <img
-              src={product.src}
+              src={product.images[0]}
               alt={product.name}
               className="w-full h-64 sm:h-80 md:h-96 object-cover rounded-lg"
             />
@@ -54,7 +52,7 @@ export const Product = () => {
           <div className="mx-auto w-3/4 mt-2">
             <Carousel opts={{ align: "start" }} className="w-full">
               <CarouselContent>
-                {Array.from({ length: 5 }).map((_, index) => (
+                {product.images.map((image, index) => (
                   <CarouselItem
                     key={index}
                     className="basis-1/4 sm:basis-1/5 md:basis-1/6"
@@ -64,7 +62,7 @@ export const Product = () => {
                         <CardContent className="flex aspect-square items-center justify-center p-2">
                           <span className="text-sm font-semibold">
                             <img
-                              src={product.src}
+                              src={image}
                               alt={product.name}
                               className="w-full object-fill"
                             />
@@ -84,15 +82,12 @@ export const Product = () => {
 
         {/** Right section */}
         <div className="mx-1 mt-3">
-
           {/** top row */}
           <div className="flex gap-2 justify-between">
             <div>
-              <p className="text-3xl md:text-4xl font-bold">
-                {product.name}
-              </p>
+              <p className="text-3xl md:text-4xl font-bold">{product.name}</p>
             </div>
-            
+
             <div>
               <Button variant="ghost" onClick={handleClickFavorite}>
                 {clickFavorite ? (
