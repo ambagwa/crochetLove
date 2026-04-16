@@ -13,6 +13,7 @@ import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { products } from "../../assets/data/products";
 import { FieldDescription } from "../ui/field";
+import { ProductImageGallery } from "./ProductImageGallery";
 
 export const Product = () => {
   const [count, setCount] = useState(1);
@@ -38,52 +39,15 @@ export const Product = () => {
   return (
     <>
       <div className="flex flex-col lg:flex-row mt-4 mx-4 gap-10 mt-10 lg:mx-40">
-
+        
         {/** Left section */}
-        <div className="flex mb-5 flex-col">
+        <div className="flex w-full mb-5 flex-col">
           {/** Image */}
-          <div className="bg-transparent  w-full">
-            <img
-              src={product.images[0]}
-              alt={product.name}
-              className="w-full h-64 sm:h-80 md:h-96 object-cover rounded-lg"
-            />
-          </div>
-
-          {/**Image carousel */}
-          <div className="mx-auto w-3/4 mt-2">
-            <Carousel opts={{ align: "start" }} className="w-full">
-              <CarouselContent>
-                {product.images.map((image, index) => (
-                  <CarouselItem
-                    key={index}
-                    className="basis-1/4 sm:basis-1/5 md:basis-1/6"
-                  >
-                    <div className="p-1">
-                      <Card>
-                        <CardContent className="flex aspect-square items-center justify-center p-2">
-                          <span className="text-sm font-semibold">
-                            <img
-                              src={image}
-                              alt={product.name}
-                              className="w-full object-fill"
-                            />
-                          </span>
-                        </CardContent>
-                      </Card>
-                    </div>
-                  </CarouselItem>
-                ))}
-              </CarouselContent>
-
-              <CarouselPrevious />
-              <CarouselNext />
-            </Carousel>
-          </div>
+          <ProductImageGallery images={product.images} />
         </div>
 
         {/** Right section */}
-        <div className="mx-1 mt-3">
+        <div className="mx-1 w-full mt-3">
           {/** top row */}
           <div className="flex gap-2 justify-between">
             <div>
