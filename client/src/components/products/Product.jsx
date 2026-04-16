@@ -12,6 +12,7 @@ import { Button } from "../ui/button";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { products } from "../../assets/data/products";
+import { FieldDescription } from "../ui/field";
 
 export const Product = () => {
   const [count, setCount] = useState(1);
@@ -36,7 +37,8 @@ export const Product = () => {
 
   return (
     <>
-      <div className="flex flex-col md:flex-row mt-4 mx-4 lg:mx-40">
+      <div className="flex flex-col lg:flex-row mt-4 mx-4 gap-10 mt-10 lg:mx-40">
+
         {/** Left section */}
         <div className="flex mb-5 flex-col">
           {/** Image */}
@@ -91,9 +93,9 @@ export const Product = () => {
             <div>
               <Button variant="ghost" onClick={handleClickFavorite}>
                 {clickFavorite ? (
-                  <MdFavorite className="size-10" />
+                  <MdFavorite className="size-8 text-orange-700" />
                 ) : (
-                  <MdFavoriteBorder className="size-10" />
+                  <MdFavoriteBorder className="size-8 text-orange-700" />
                 )}
               </Button>
             </div>
@@ -101,7 +103,9 @@ export const Product = () => {
 
           {/** Description and price row */}
           <div className="mt-2">
-            <p className="font-normal text-xl">{product.description}</p>
+            <FieldDescription className="font-normal text-xl">
+              {product.description}
+            </FieldDescription>
             <p className="mt-5 text-3xl font-bold text-orange">
               <span className="italic">sh.</span> {product.price}
             </p>
@@ -109,7 +113,7 @@ export const Product = () => {
 
           {/** Add to Cart row */}
           <div className="mt-15 flex gap-8">
-            <div className="border px-2 flex border-black gap-3 rounded">
+            <div className="border px-2 flex border-orange gap-3 rounded">
               <button
                 onClick={handleSubtract}
                 className="p-2 text-3xl font-medium"
