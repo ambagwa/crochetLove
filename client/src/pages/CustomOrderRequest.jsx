@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import Footer from "@/components/sections/footer/Footer";
 
 export const CustomOrderRequest = () => {
   const navigate = useNavigate();
@@ -371,6 +372,8 @@ export const CustomOrderRequest = () => {
           </div>
         </div>
       </div>
+
+      <Footer />
     </>
   );
 };
