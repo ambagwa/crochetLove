@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import logo from "../assets/images/logo.svg";
 import { Spinner } from "@/components/ui/spinner";
+import { Link, useNavigate } from "react-router-dom";
 
 export const Login = () => {
   const [formData, setFormData] = useState({
@@ -17,61 +18,58 @@ export const Login = () => {
     email: "",
     password: "",
   });
+  const navigate = useNavigate();
 
   const handleFormData = (e) => {
     const { name, value } = e.target;
-
-    const updatedData = { ...formData, [name]: value };
-
-    setFormData(updatedData);
+    setFormData((prevData) => ({ ...prevData, [name]: value }));
 
     //Real-time validation
-    checkErrors(updatedData);
+    let errorMessage = "";
+
+    switch (name) {
+      case "email":
+        if (!value.trim()) {
+          errorMessage = "Email is required";
+        } else if (!/\S+@\S+\.\S+/.test(value)) {
+          errorMessage = "Invalid email format";
+        }
+        break;
+
+      case "password":
+        if (!value.trim()) errorMessage = "Password is required";
+        break;
+    }
+
+    setErrors((prev) => ({ ...prev, [name]: errorMessage }));
+  };
+
+  const isFormValid = () => {
+    return (
+      !Object.values(errors).some((e) => e !== "") &&
+      formData.email.trim() &&
+      formData.password.trim()
+    );
   };
 
   const clearInputs = () => {
     setFormData({ email: "", password: "" });
   };
 
-  const checkErrors = (data = formData) => {
-    let newErrors = { email: "", password: "" };
-    let isValid = true;
-
-    if (!data.email.trim()) {
-      newErrors.email = "Provide your email";
-      isValid = false;
-    } else if (!/\S+@\S+\.\S+/.test(data.email)) {
-      newErrors.email = "Invalid email format";
-      isValid = false;
-    }
-
-    if (!data.password.trim()) {
-      newErrors.password = "Provide a strong password";
-      isValid = false;
-    } else if (data.password.length < 6) {
-      newErrors.password = "Password MUST be at least 6 characters";
-      isValid = false;
-    }
-
-    setErrors(newErrors);
-    return isValid;
-  };
-
   // handle form submission
   const handleFormSubmission = async (e) => {
     e.preventDefault();
 
-    if (!checkErrors()) return;
-
     setLoading(true);
 
     try {
-      const res = await API.post("/api/auth/login", {
+      const res = await API.post("/auth/login", {
         email: formData.email,
         password: formData.password,
       });
 
       localStorage.setItem("token", res.data.token);
+      navigate("/");
       toast.success("Welcome back");
 
       if (!res.data.token) {
@@ -139,7 +137,7 @@ export const Login = () => {
 
           {/** Password input */}
           <div className="space-y-1">
-            <Label htmlFor="password" className="text-md font-semibold">
+            <Label htmlFor="password" className="text-md font-normal">
               Password
             </Label>
             <Input
@@ -175,6 +173,7 @@ export const Login = () => {
             variant="orange"
             className="w-full mt-3 h-8 text-md font-medium"
             type="submit"
+            disabled={!isFormValid()}
           >
             {loading ? <Spinner /> : "Log In"}
           </Button>
@@ -182,12 +181,12 @@ export const Login = () => {
           <div className="text-center">
             <span className="text-xs text-gray-600">
               Already have an account?{" "}
-              <button
+              <Link
                 className="text-xs text-blue-600 hover:text-blue-700 font-medium hover:cursor-pointer underline underline-offset-2"
-                type="button"
+                to="/register"
               >
                 Register
-              </button>
+              </Link>
             </span>
           </div>
         </form>
