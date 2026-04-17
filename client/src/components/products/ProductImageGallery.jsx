@@ -36,7 +36,7 @@ export const ProductImageGallery = ({ images }) => {
         <div className="fixed inset-0 bg-black/80 flex flex-col items-center justify-center z-50">
           {/**Close button */}
           <button
-            className="absolute top-5 right-5 text-white text-3xl"
+            className="absolute top-5 right-5 text-white text-3xl cursor-pointer hover:text-orange"
             onClick={() => setIsOpen(false)}
           >
             X
@@ -58,7 +58,7 @@ export const ProductImageGallery = ({ images }) => {
                 onClick={() => setSelectedImage(image)}
                 className={`h-20 w-20 object-cover rounded cursor-pointer border ${
                   selectedImage === image
-                    ? "border-white"
+                    ? "border-orange"
                     : "border-transparent"
                 }`}
               />
