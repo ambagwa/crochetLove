@@ -8,6 +8,7 @@ import { Register } from "./pages/Register";
 import { CustomOrderRequest } from "./pages/CustomOrderRequest";
 import Test from "./pages/Test";
 import { Product } from "./components/products/Product";
+import Footer from "./components/sections/footer/Footer";
 
 const App = () => {
   return (
@@ -15,8 +16,6 @@ const App = () => {
       <Toaster position="top-center" richColors />
 
       <Navbar />
-      {/** 
-      <CustomOrderRequest /> */}
 
       <Routes>
         <Route path="/" element={<Home />} />
@@ -27,6 +26,7 @@ const App = () => {
         <Route path="custom_orders" element={<CustomOrderRequest />} />
         <Route path="*" element={<Test />} />
       </Routes>
+
     </>
   );
 };
