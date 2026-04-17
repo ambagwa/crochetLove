@@ -121,6 +121,7 @@ export const CustomOrderRequest = () => {
     setFormData((prev) => ({ ...prev, photos: file }));
   };
 
+  // Submit the form
   const handleSubmit = (e) => {
     e.preventDefault();
     if (checkErrors()) {
