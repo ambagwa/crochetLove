@@ -3,6 +3,7 @@ import { ProductCard } from "@/components/products/ProductCard";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { products } from "../assets/data/products";
+import Footer from "@/components/sections/footer/Footer";
 
 export const Products = () => {
   const navigate = useNavigate();
@@ -67,6 +68,8 @@ export const Products = () => {
           </div>
         </div>
       </div>
+
+      <Footer />
     </>
   );
 };
