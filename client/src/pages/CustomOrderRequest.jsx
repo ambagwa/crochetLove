@@ -11,6 +11,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 
 export const CustomOrderRequest = () => {
+
   const navigate = useNavigate();
   const process = [
     "Submit your request with details",
@@ -28,7 +29,7 @@ export const CustomOrderRequest = () => {
     photos: "",
   });
 
-  const [error, settError] = useState({
+  const [error, setError] = useState({
     name: "",
     phoneNumber: "",
     email: "",
@@ -40,8 +41,46 @@ export const CustomOrderRequest = () => {
     const { name, value } = e.target;
     setFormData((prevState) => ({ ...prevState, [name]: value }));
 
-    // Clear error as user inputs data
-    setError((prevError) => ({ ...prevError, [name]: "" }));
+    // Validate in real time
+    let errorMessage = "";
+
+    switch (name) {
+      case "name":
+        if (!value.trim()) errorMessage = "Name is required";
+        break;
+
+      case "email":
+        if (!value.trim()) {
+          errorMessage = "Email is required";
+        } else if (!/\S+@\S+\.\S+/.test(value)) {
+          errorMessage = "Invalid email format";
+        }
+        break;
+
+      case "phoneNumber":
+        if (!value.trim()) {
+          errorMessage = "Phone number is required";
+        } else if (!/^\+?[\d\s\-]{7,15}$/.test(value)) {
+          errorMessage = "Invalid phone number";
+        }
+        break;
+
+      case "description":
+        if (!value.trim()) errorMessage = "Description is required";
+        break;
+    }
+
+    setError((prevError) => ({ ...prevError, [name]: errorMessage }));
+  };
+
+  const isFormValid = () => {
+    return (
+      !Object.values(error).some((e) => e !== "") &&
+      formData.name.trim() &&
+      formData.email.trim() &&
+      formData.phoneNumber.trim() &&
+      formData.description.trim()
+    );
   };
 
   // Clear inputs
@@ -58,6 +97,7 @@ export const CustomOrderRequest = () => {
       description: "",
       photos: "",
     };
+
     if (!formData.name.trim()) {
       newErrors.name = "Name is required";
       isValid = false;
@@ -82,6 +122,8 @@ export const CustomOrderRequest = () => {
     }
 
     setError(newErrors);
+    setIsValid(isValid);
+
     return isValid;
   };
 
@@ -96,17 +138,17 @@ export const CustomOrderRequest = () => {
 
   return (
     <>
-      <div className="m-10">
-        <p className="py-5 font-medium text-3xl sm:text-5xl">
+      <div className="-mt-30 pt-30 mx-4 lg:mx-40">
+        <p className="py-5 text-center font-medium text-3xl sm:text-5xl">
           Custom Order Request
         </p>
 
-        <div className="grid grid-cols-1 sm:grid-cols-5 py-10">
+        <div className="grid gap-5 grid-cols-1 sm:grid-cols-5 pb-10">
           {/*Left section*/}
           <div className="col-span-3">
             <p className="text-2xl">
               Do you have a unique idea you wanna curate? Share them with us and
-              we will create a custom piece just for
+              we will create a custom piece just for{" "}
               <span className="text-orange underline">YOU</span>. Provide as
               many details as possible to help bring your idea into life
             </p>
@@ -121,6 +163,7 @@ export const CustomOrderRequest = () => {
                 <Input
                   type="text"
                   id="name"
+                  name="name"
                   className={`h-8 text-xs transition-all duration-400 ease-in-out ${
                     error.name
                       ? "border-red-500 ring-1 ring-red-300 focus:ring-red-400 animate-glow"
@@ -156,7 +199,7 @@ export const CustomOrderRequest = () => {
                   Phone Number:
                 </Label>
                 <Input
-                  type="numbert"
+                  type="number"
                   id="phoneNumber"
                   name="phoneNumber"
                   onChange={handleDataChange}
@@ -232,10 +275,10 @@ export const CustomOrderRequest = () => {
                   id="description"
                   name="description"
                   rows={10}
-                  value={formData.textarea}
+                  value={formData.description}
                   placeholder="Include details like: size, color, purpose, any special requests"
                   onChange={handleDataChange}
-                  className={`h-8 w-100 text-xs transition-all duration-400 ease-in-out ${
+                  className={`h-8 w-full text-xs transition-all duration-400 ease-in-out ${
                     error.phoneNumber
                       ? "border-red-500 ring-1 ring-red-300 focus:ring-red-400 animate-glow"
                       : "border-gray-300 focus:ring-1 focus:ring-blue-500"
@@ -244,56 +287,65 @@ export const CustomOrderRequest = () => {
               </div>
 
               {/** Image data input */}
-              <div className="space-y-2">
-                <Label htmlFor="photos" className="text-[12px] font-medium">
+              <div className="space-y-2 mb-5">
+                <Label htmlFor="photos" className="text-[20px] font-medium">
                   Upload reference image
                 </Label>
-                <input id="photos" name="photos" type="file" />
+                <Input id="photos" name="photos" type="file" />
               </div>
             </form>
 
-            <Button
-              variant="orange"
-              disabled={!checkErrors}
-              onClick={checkErrors}
-            >
-              Submit
-            </Button>
-            <Button variant="outline" onClick={() => navigate("/")}>Go home</Button>
+            {/**buttons */}
+            <div className="flex gap-5">
+              <Button
+                variant="orange"
+                disabled={!isFormValid()}
+                onClick={handleSubmit}
+              >
+                Submit
+              </Button>
+              <Button variant="outline" onClick={() => navigate("/")}>
+                Go home
+              </Button>
+            </div>
           </div>
 
           {/*Right section*/}
           <div className="col-span-2">
-            <p className="font-medium text-2xl pb-5">Get Inpired</p>
-            <div className="grid grid-cols-2 my-5">
+            <p className="font-medium text-2xl pb-5 mt-5 sm:mt-0">
+              Get Inpired
+            </p>
+
+            {/**Reference images */}
+            <div className="grid grid-cols-2 mb-5">
               <img
                 src={crochet_image_1}
                 alt="Reference image 1"
-                className="object-cover h-50 w-50"
+                className="object-cover h-full w-full aspect-square"
               />
               <img
                 src={refPhoto2}
                 alt="Reference image 2"
-                className="object-cover h-50 w-50"
+                className="object-cover h-full w-full aspect-square"
               />
               <img
                 src={refPhoto3}
                 alt="Reference image 3"
-                className="object-cover h-50 w-50"
+                className="object-cover h-full w-full aspect-square"
               />
               <img
                 src={refPhoto4}
                 alt="Reference image 4"
-                className="object-cover h-50 w-50"
+                className="object-cover h-full w-full aspect-square"
               />
             </div>
 
-            <p className="text-xl">Custom order process:</p>
-            <ul>
+            <p className="text-xl font-medium">Custom order process:</p>
+            <ol className="my-6 ml-6 list-decimal [&>li]:mt-2">
               {process.map((p, index) => (
                 <li key={index}>{p}</li>
               ))}
-            </ul>
+            </ol>
           </div>
         </div>
       </div>
