@@ -6,6 +6,7 @@ import { toast } from "sonner";
 import logo from "../assets/images/logo.svg";
 import API from "../services/api";
 import { Spinner } from "@/components/ui/spinner";
+import { Link, useNavigate } from "react-router-dom";
 
 export const Register = () => {
   const [formData, setFormData] = useState({
@@ -23,6 +24,7 @@ export const Register = () => {
   });
   const [passwordStrength, setPasswordStrength] = useState(0);
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   //Check passowrd strength
   const checkPasswordStrength = (p) => {
@@ -37,68 +39,69 @@ export const Register = () => {
   const handleDataChange = (e) => {
     const { name, value } = e.target;
 
-    const updatedData = { ...formData, [name]: value };
-
-    setFormData(updatedData);
+    setFormData((prevData) => ({ ...prevData, [name]: value }));
 
     // Check password strength
     if (name === "password") setPasswordStrength(checkPasswordStrength(value));
 
     // Validate inputs in real time
-    checkErrors(updatedData);
+    let errorMessage = "";
+
+    switch (name) {
+      case "username":
+        if (!value.trim()) errorMessage = "Username is required";
+        break;
+
+      case "email":
+        if (!value.trim()) {
+          errorMessage = "Email is required";
+        } else if (!/\S+@\S+\.\S+/.test(value)) {
+          errorMessage = "Invalid email format";
+        }
+
+      case "password":
+        if (!value.trim()) {
+          errorMessage = "Password is required";
+        } else if (value < 6) {
+          errorMessage = "Password MUST be at least 6 characters";
+        } else if (checkPasswordStrength(value) === 1) {
+          errorMessage = "Password is too weak";
+        }
+        break;
+
+      case "phone":
+        if (!value.trim()) {
+          errorMessage = "Phone number is required";
+        } else if (!/^\+?[\d\s\-]{7,15}$/.test(value)) {
+          errorMessage = "Invalid phone Number";
+        }
+        break;
+    }
+
+    setError((prevError) => ({ ...prevError, [name]: errorMessage }));
+  };
+
+  const isFormValid = () => {
+    return (
+      !Object.values(error).some((e) => e !== "") &&
+      formData.email.trim() &&
+      formData.password.trim() &&
+      formData.username.trim() &&
+      formData.username.trim()
+    );
   };
 
   // Clear inputs
   const clearInputs = () =>
     setFormData({ username: "", email: "", password: "", phone: "" });
 
-  // Check for errors
-  const checkErrors = (data = formData) => {
-    let newError = { username: "", email: "", password: "" };
-    let isValid = true;
-
-    if (!data.username.trim()) {
-      newError.username = "Please provide your username";
-      isValid = false;
-    }
-
-    if (!data.email.trim()) {
-      newError.email = "Please provide your email";
-      isValid = false;
-    } else if (!/\S+@\S+\.\S+/.test(data.email)) {
-      newError.email = "Invalid email format";
-      isValid = false;
-    }
-
-    if (!data.phone.trim()) {
-      newError.phone = "Please provide your phone number";
-      isValid = false;
-    } else if (!/^(?:\+254|0)[17]\d{8}$/.test(data.phone)) {
-      newError.phone = "Invalid phone number";
-      isValid = false;
-    }
-
-    if (!data.password.trim()) {
-      newError.password = "Please provide a strong password";
-      isValid = false;
-    } else if (data.password.length < 6) {
-      newError.password = "Password MUST be at least 6 characters";
-      isValid = false;
-    }
-
-    setError(newError);
-    return isValid;
-  };
-
   const handleFormSubmission = async (e) => {
     e.preventDefault();
-
-    if (!checkErrors()) return;
 
     setLoading(true);
 
     try {
-      const res = await API.post("/api/auth/register", {
+      const res = await API.post("/auth/register", {
         username: formData.username,
         email: formData.email,
         password: formData.password,
@@ -106,10 +109,10 @@ export const Register = () => {
         role: "customer",
       });
 
-      // Check if token exiats in response
+      // Check if token exists in response
       if (res.data.token) {
         localStorage.setItem("token", res.data.token);
-        //navigate(""dashboard/)
+        navigate("/");
         toast.success("Account created");
       } else {
         throw new Error("No token recieved from server");
@@ -317,6 +320,7 @@ export const Register = () => {
 
           <Button
             variant="orange"
+            disabled={!isFormValid()}
             className="w-full h-8 text-md font-medium"
             type="submit"
           >
@@ -326,12 +330,12 @@ export const Register = () => {
           <div className="text-center">
             <span className="text-xs text-gray-600">
               Already have an account?{" "}
-              <button
+              <Link
                 className="text-xs text-blue-600 hover:tet-blue-700 font-medium hover:cursor-pointer underline underline-offset-2"
-                type="button"
+                to="/login"
               >
                 Log in
-              </button>
+              </Link>
             </span>
           </div>
         </form>
