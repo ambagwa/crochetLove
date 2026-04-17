@@ -11,7 +11,6 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 
 export const CustomOrderRequest = () => {
-
   const navigate = useNavigate();
   const process = [
     "Submit your request with details",
@@ -88,43 +87,38 @@ export const CustomOrderRequest = () => {
     setFormData({ name: "", phoneNumber: "", description: "", photos: "" });
   };
 
-  // Check for errors
-  const checkErrors = () => {
-    let isValid = true;
-    const newErrors = {
-      name: "",
-      phoneNumber: "",
-      description: "",
-      photos: "",
-    };
+  // Image validation
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    const allowedTypes = ["image.jpeg", "image/png", "image/jfif"];
+    const maxSize = 5 * 1024 * 1024; // 5 mb
 
-    if (!formData.name.trim()) {
-      newErrors.name = "Name is required";
-      isValid = false;
+    if (!file) {
+      setError((prevError) => ({
+        ...prevError,
+        photos: "Please upload a reference image",
+      }));
+      return;
     }
 
-    if (!formData.email.trim()) {
-      newErrors.email = "Email is required";
-      isValid = false;
-    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      newErrors.email = "Invalid email format";
-      isValid = false;
+    if (!allowedTypes.includes(file.type)) {
+      setError((prevError) => ({
+        ...prevError,
+        photos: "Only JPG and PNG images are allowed",
+      }));
+      return;
     }
 
-    if (!formData.phoneNumber.trim()) {
-      newErrors.phoneNumber = "Phone number is required";
-      isValid = false;
+    if (file.size > maxSize) {
+      setError((prevError) => ({
+        ...prevError,
+        photos: "Image must be under 5mb",
+      }));
+      return;
     }
 
-    if (!formData.description.trim()) {
-      newErrors.description = "Description is required";
-      isValid = false;
-    }
-
-    setError(newErrors);
-    setIsValid(isValid);
-
-    return isValid;
+    setError((prev) => ({ ...prev, photos: "" }));
+    setFormData((prev) => ({ ...prev, photos: file }));
   };
 
   const handleSubmit = (e) => {
@@ -291,7 +285,34 @@ export const CustomOrderRequest = () => {
                 <Label htmlFor="photos" className="text-[20px] font-medium">
                   Upload reference image
                 </Label>
-                <Input id="photos" name="photos" type="file" />
+                <Input
+                  id="photos"
+                  name="photos"
+                  type="file"
+                  accept="image/jpeg, image/png, image/jfif"
+                  onChange={handleFileChange}
+                  className={`h-8 text-xs transition-all duration-400 ease-in-out ${
+                    error.photos
+                      ? "border-red-500 ring-1 ring-red-300 focus:ring-red-400 animate-glow"
+                      : "border-gray-300 focus:ring-1 focus:ring-blue-500"
+                  }`}
+                />
+
+                {/** Error display */}
+                <div
+                  className={`transition-all duration-400 overflow-hidden ${
+                    error.photos
+                      ? "max-h-10 opacity-100 translate-y-0"
+                      : "max-h-0 opacity-0 -translate-y-1"
+                  }`}
+                >
+                  {" "}
+                  {error.photos && (
+                    <p className="text-red-500 text-[10px] mt-1">
+                      {error.photos}
+                    </p>
+                  )}
+                </div>
               </div>
             </form>
 
