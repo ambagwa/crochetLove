@@ -1,6 +1,6 @@
 // Utility functions for authrntication and role management
 
-exxport const decodeToken = token => {
+export const decodeToken = token => {
   try {
     const payload = JSON.parse(atob(token.split(".")[1]));
     return payload;
@@ -49,3 +49,4 @@ const token = localStorage.getItem("token");
  	  console.error(`Error decoding token: ${error}`);
 		                return null;
 	}
+}
