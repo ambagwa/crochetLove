@@ -14,6 +14,7 @@ import { useParams } from "react-router-dom";
 import { products } from "../../assets/data/products";
 import { FieldDescription } from "../ui/field";
 import { ProductImageGallery } from "./ProductImageGallery";
+import Footer from "../sections/footer/Footer";
 
 export const Product = () => {
   const [count, setCount] = useState(1);
@@ -97,6 +98,9 @@ export const Product = () => {
           </div>
         </div>
       </div>
+
+      
+      <Footer />
     </>
   );
 };
