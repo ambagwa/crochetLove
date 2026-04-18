@@ -6,6 +6,7 @@ import {
 } from "react-router-dom";
 import { useState } from "react";
 import logo from "../../assets/images/logo.svg";
+import { ShoppingCart } from "../cart/ShoppingCart";
 
 const NavLink = ({ children, to, onClick }) => {
   return (
@@ -49,6 +50,7 @@ const NavIconLink = ({ children, to }) => {
 
 export const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [cartOpen, setCartOpen] = useState(false);
 
   const navItems = [
     { name: "Home", to: "/" },
@@ -171,6 +173,7 @@ export const Navbar = () => {
           {/**Shopping Cart icon */}
           <NavIconLink
             to="/cart"
+            onClick={() => setCartOpen(true)}
           >
             <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path
@@ -242,6 +245,7 @@ export const Navbar = () => {
             {/**Shopping Cart icon */}
             <NavIconLink
               to="/cart"
+              onClick={() => setCartOpen(true)}
             >
               <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path
@@ -255,6 +259,8 @@ export const Navbar = () => {
           </div>
         </div>
       </nav>
+
+      <ShoppingCart isOpen={cartOpen} onClose={() => setCartOpen(false)} />
     </>
   );
 };
