@@ -8,14 +8,16 @@ import { Register } from "./pages/Register";
 import { CustomOrderRequest } from "./pages/CustomOrderRequest";
 import Test from "./pages/Test";
 import { Product } from "./components/products/Product";
-import Footer from "./components/sections/footer/Footer";
+import { ShoppingCart } from "./components/cart/ShoppingCart";
 
 const App = () => {
   return (
     <>
       <Toaster position="top-center" richColors />
 
-      <Navbar />
+      
+      
+      <Navbar /> 
 
       <Routes>
         <Route path="/" element={<Home />} />
@@ -26,7 +28,6 @@ const App = () => {
         <Route path="custom_orders" element={<CustomOrderRequest />} />
         <Route path="*" element={<Test />} />
       </Routes>
-
     </>
   );
 };
