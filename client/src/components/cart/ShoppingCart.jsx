@@ -9,7 +9,7 @@ export const ShoppingCart = ({ isOpen, onClose }) => {
     { id: 2, image: image, title: "Prime Bag", price: 286 },
   ];
   return (
-    <div className="p-10 min-h-screen">
+    <div className="p-10 min-h-screen relative">
       {/**Backdrop */}
       <div
         className={`fixed inset-0 bg-black/50 z-40 transition-opacity duration-300 ${
@@ -22,7 +22,7 @@ export const ShoppingCart = ({ isOpen, onClose }) => {
 
       {/**Sliding drawer */}
       <div
-        className={`fixed-0 top-0 right-0 h-full w-full sm:w-[400px] z-50 shadow-xl flex flex-col transition-trnsform duration-300 ease-in-out ${
+        className={`fixed top-0 right-0 h-full w-full sm:w-[400px] z-50 shadow-xl flex flex-col transition-trnsform duration-300 ease-in-out ${
           isOpen ? "translate-x-0" : "translate-x-full"
         }`}
       >
