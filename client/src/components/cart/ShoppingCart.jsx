@@ -22,12 +22,12 @@ export const ShoppingCart = ({ isOpen, onClose }) => {
 
       {/**Sliding drawer */}
       <div
-        className={`fixed top-0 right-0 h-full w-full sm:w-[400px] z-50 shadow-xl flex flex-col transition-trnsform duration-300 ease-in-out ${
+        className={`fixed top-0 right-0 h-full w-full bg-white sm:w-[400px] z-50 shadow-xl flex flex-col transition-trnsform duration-300 ease-in-out ${
           isOpen ? "translate-x-0" : "translate-x-full"
         }`}
       >
         {/** Header */}
-        <div className="flex justify-between">
+        <div className="flex justify-between p-4">
           <h1 className="font-medium text-2xl">Shopping Cart</h1>
           <TbXboxX className="text-3xl" />
         </div>
@@ -86,9 +86,9 @@ export const ShoppingCart = ({ isOpen, onClose }) => {
         </div>
 
         {/**Sub total container */}
-        <div className="fixed bottom-0 left-0 right-0 p-4 shadow-lg">
-          <div className="flex justify-between">
-            <p className="text-2xl opacity-50">Subtotal</p>
+        <div className="fixed bottom-0 left-0 right-0 p-4 mb-4 shadow-lg">
+          <div className="flex justify-between mb-4">
+            <p className="text-2xl opacity-80">Subtotal</p>
             <p className="text-2xl font-medium">sh. 3000</p>
           </div>
           <Button
