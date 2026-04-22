@@ -1,6 +1,7 @@
 import { TbXboxX } from "react-icons/tb";
 import image from "../../assets/images/artist-face.jfif";
 import { Button } from "../ui/button";
+import { NavLink } from "react-router-dom";
 
 export const ShoppingCart = ({ isOpen, onClose }) => {
   const products = [
@@ -29,7 +30,9 @@ export const ShoppingCart = ({ isOpen, onClose }) => {
         {/** Header */}
         <div className="flex justify-between p-4">
           <h1 className="font-medium text-2xl">Shopping Cart</h1>
-          <TbXboxX className="text-3xl" />
+
+          {/** Close button */}
+          <TbXboxX className="text-3xl hover:text-orange" />
         </div>
 
         {/**Products container */}
@@ -88,15 +91,22 @@ export const ShoppingCart = ({ isOpen, onClose }) => {
         {/**Sub total container */}
         <div className="fixed bottom-0 left-0 right-0 p-4 mb-4 shadow-lg">
           <div className="flex justify-between mb-4">
-            <p className="text-2xl opacity-80">Subtotal</p>
+            <p className="text-2xl opacity-880">Subtotal</p>
             <p className="text-2xl font-medium">sh. 3000</p>
           </div>
-          <Button
+          <NavLink
             variant="orange"
+            to="login"
             className="w-full my-2 text-xl sm:text-3xl font-medium"
           >
             Proceed to Checkout
-          </Button>
+          </NavLink>
+          <NavLink
+            variant="ghost"
+            className="w-full my-2 text-xl sm:text-3xl font-medium"
+          >
+            View cart
+          </NavLink>
         </div>
       </div>
     </div>
