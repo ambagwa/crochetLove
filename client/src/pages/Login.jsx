@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import logo from "../assets/images/logo.svg";
 import { Spinner } from "@/components/ui/spinner";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 export const Login = () => {
   const [formData, setFormData] = useState({
@@ -19,6 +19,8 @@ export const Login = () => {
     password: "",
   });
   const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from || "/";
 
   const handleFormData = (e) => {
     const { name, value } = e.target;
@@ -69,7 +71,7 @@ export const Login = () => {
       });
 
       localStorage.setItem("token", res.data.token);
-      navigate("/");
+      navigate(from);
       toast.success("Welcome back");
 
       if (!res.data.token) {
