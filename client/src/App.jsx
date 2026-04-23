@@ -1,4 +1,4 @@
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Outlet } from "react-router-dom";
 import { Navbar } from "./components/layout/Navbar";
 import { Toaster } from "./components/ui/sonner";
 import Home from "./pages/Home";
@@ -8,25 +8,42 @@ import { Register } from "./pages/Register";
 import { CustomOrderRequest } from "./pages/CustomOrderRequest";
 import Test from "./pages/Test";
 import { Product } from "./components/products/Product";
-import { ShoppingCart } from "./components/cart/ShoppingCart";
+
+// Layout with Navbar
+const MainLayout = () => (
+  <>
+    <Navbar />
+    <Outlet />
+  </>
+);
+
+// Layout without Navbar
+const AuthLayout = () => (
+  <>
+    <Outlet />
+  </>
+);
 
 const App = () => {
   return (
     <>
       <Toaster position="top-center" richColors />
 
-      
-      
-      <Navbar /> 
-
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="products" element={<Products />} />
-        <Route path="products/:id" element={<Product />} />
-        <Route path="register" element={<Register />} />
-        <Route path="login" element={<Login />} />
-        <Route path="custom_orders" element={<CustomOrderRequest />} />
-        <Route path="*" element={<Test />} />
+        {/**Routes with Navbar */}
+        <Route element={<MainLayout />}>
+          <Route path="/" element={<Home />} />
+          <Route path="products" element={<Products />} />
+          <Route path="products/:id" element={<Product />} />
+          <Route path="custom_orders" element={<CustomOrderRequest />} />
+          <Route path="*" element={<Test />} />
+        </Route>
+
+        {/**Routes without Navbar */}
+        <Route element={<AuthLayout />}>
+          <Route path="login" element={<Login />} />
+          <Route path="register" element={<Register />} />
+        </Route>
       </Routes>
     </>
   );
