@@ -115,6 +115,7 @@ export const ShoppingCart = ({ isOpen, onClose }) => {
           <div className="flex flex-col text-center">
             <NavLink
               to="login"
+              state={{ from: "/checkout" }}
               onClick={onClose}
               className="w-full rounded-lg bg-orange-300 p-2 text-lg sm:text-xl font-medium hover:text-white hover:bg-orange-400"
             >
