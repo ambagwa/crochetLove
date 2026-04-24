@@ -8,6 +8,7 @@ import { Register } from "./pages/Register";
 import { CustomOrderRequest } from "./pages/CustomOrderRequest";
 import Test from "./pages/Test";
 import { Product } from "./components/products/Product";
+import { Checkout } from "./components/cart/Checkout";
 
 // Layout with Navbar
 const MainLayout = () => (
@@ -43,6 +44,7 @@ const App = () => {
         <Route element={<AuthLayout />}>
           <Route path="login" element={<Login />} />
           <Route path="register" element={<Register />} />
+          <Route path="checkout" element={<Checkout />} />
         </Route>
       </Routes>
     </>
