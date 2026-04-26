@@ -1,17 +1,7 @@
-import React from "react";
-import { Card, CardContent } from "../ui/card";
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "@/components/ui/carousel";
 import { MdFavoriteBorder, MdFavorite } from "react-icons/md";
 import { Button } from "../ui/button";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
-import { products } from "../../assets/data/products";
 import { FieldDescription } from "../ui/field";
 import { ProductImageGallery } from "./ProductImageGallery";
 import Footer from "../sections/footer/Footer";
