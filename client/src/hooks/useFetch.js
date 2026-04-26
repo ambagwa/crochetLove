@@ -12,10 +12,11 @@ export const useFetch = (endpoint) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        console.log("Fetching:", API.defaults.baseURL + endpoint);
         const response = await API.get(endpoint);
-        if (!response.ok) throw new Error("Failed to fetch");
         setData(response.data);
       } catch (error) {
+        console.log("Full error:", error);
         setError(error.message);
       } finally {
         setLoading(false);
