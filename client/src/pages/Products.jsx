@@ -5,20 +5,30 @@ import { useNavigate } from "react-router-dom";
 import Footer from "@/components/sections/footer/Footer";
 import { useFetch } from "@/hooks/useFetch";
 import { useEffect } from "react";
+import { div } from "motion/react-client";
+import { Spinner } from "@/components/ui/spinner";
 
 export const Products = () => {
-  const { data, loading, error } = useFetch("/products");
+  const { data, loading, error } = useFetch("/products/fetchAllProducts");
   const navigate = useNavigate();
   const [filteredProducts, setFilteredProducts] = useState([]);
 
   // Populate filteredProducts once data arrives
   useEffect(() => {
     if (data?.products) setFilteredProducts(data.products);
+    if(data?.number) console.log(data.number);
   }, [data]);
 
-  if (loading) return <p className="text-center mt-5">Loading ...</p>;
+  if (loading) return (
+    <div className="flex flex-col items-center justify-center mt-5">
+      <Spinner className="text-orange-400" />
+      <p className="mt-3">Loading ...</p>;
+    </div>
+  )
   if (error)
     return <p className="text-center mt-5 text-red-300">Error: {error}</p>;
+
+  const products =  data?.products || [];
 
   const handleFilterChange = (filters) => {
     let result = [...products];
@@ -66,8 +76,8 @@ export const Products = () => {
               filteredProducts.map((p) => (
                 <ProductCard
                   product={p}
-                  key={p.id}
-                  onClick={() => navigate(`/products/${p.id}`)}
+                  key={p._id}
+                  onClick={() => navigate(`/products/${p._id}`)}
                 />
               ))
             ) : (
