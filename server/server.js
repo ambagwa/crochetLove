@@ -7,7 +7,11 @@ const path = require("path");
 const app = express();
 connectDB();
 
-app.use(cors());
+app.use(
+  cors({
+    origin: ["http://localhost:5173", "http://127.0.0.1:5173"],
+  }),
+);
 app.use(express.json());
 
 // Serve images publicly
@@ -18,7 +22,6 @@ app.use("/api/auth", require("./routes/authRoutes"));
 app.use("/api/images", require("./routes/imageRoutes"));
 app.use("/api/products", require("./routes/productRoutes"));
 app.use("/api/orders", require("./routes/orderRoutes"));
-
 
 const PORT = process.env.PORT || 5000;
 
