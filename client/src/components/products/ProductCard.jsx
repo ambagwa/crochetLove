@@ -68,6 +68,8 @@ export const ProductCard = ({ product, onClick }) => {
           <CardDescription className="hidden md:block">
             {product.subtitle}
           </CardDescription>
+
+          {/**
           <div className="mt-2 flex gap-2 hidden md:block">
             {product.badges.map((badge, index) => (
               <Badge className="bg-orange-300 me-1" key={index}>
@@ -75,6 +77,8 @@ export const ProductCard = ({ product, onClick }) => {
               </Badge>
             ))}
           </div>
+           */}
+           
         </CardHeader>
 
         <CardFooter className="flex flex-col flex-start">
