@@ -20,10 +20,10 @@ router.post(
 );
 
 // Fetch all products
-router.get("/fetchAllProducts", protect, fetchAllProducts);
+router.get("/fetchAllProducts", fetchAllProducts);
 
 // Fetch a unique product
-router.get("/fetchProduct/:id", protect, fetchProduct);
+router.get("/fetchProduct/:id", fetchProduct);
 
 // Update a product
 router.put(
