@@ -2,13 +2,23 @@ import FiltersSidebar from "@/components/products/FiltersSidebar";
 import { ProductCard } from "@/components/products/ProductCard";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { products } from "../assets/data/products";
 import Footer from "@/components/sections/footer/Footer";
+import { useFetch } from "@/hooks/useFetch";
+import { useEffect } from "react";
 
 export const Products = () => {
+  const { data, loading, error } = useFetch("/products");
   const navigate = useNavigate();
+  const [filteredProducts, setFilteredProducts] = useState([]);
 
-  const [filteredProducts, setFilteredProducts] = useState(products);
+  // Populate filteredProducts once data arrives
+  useEffect(() => {
+    if (data?.products) setFilteredProducts(data.products);
+  }, [data]);
+
+  if (loading) return <p className="text-center mt-5">Loading ...</p>;
+  if (error)
+    return <p className="text-center mt-5 text-red-300">Error: {error}</p>;
 
   const handleFilterChange = (filters) => {
     let result = [...products];
