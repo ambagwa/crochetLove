@@ -11,7 +11,6 @@ export const useProductFilters = (products) => {
     sort: "",
   });
 
-  // ✅ When products load from the backend, filteredProducts updates automatically
   const filteredProducts = useMemo(() => {
     let result = [...products];
 
@@ -21,7 +20,7 @@ export const useProductFilters = (products) => {
       );
 
     if (filters.category !== "all")
-      result = result.filter((p) => p.category === filters.category);
+      result = result.filter((p) => p.category.toLowerCase() === filters.category.toLowerCase());
 
     result = result.filter(
       (p) => p.price >= filters.minPrice && p.price <= filters.maxPrice
@@ -33,7 +32,7 @@ export const useProductFilters = (products) => {
     else if (filters.sort === "high") result.sort((a, b) => b.price - a.price);
 
     return result;
-  }, [products, filters]); // ✅ re-runs when products OR filters change
+  }, [products, filters]); 
 
   const handleFilterChange = (newFilters) => {
     setFilters((prev) => ({ ...prev, ...newFilters }));
