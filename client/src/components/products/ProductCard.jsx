@@ -12,16 +12,13 @@ import { Button } from "../ui/button";
 import { Star } from "lucide-react";
 import { CiHeart } from "react-icons/ci";
 import { FaHeart } from "react-icons/fa";
-import { useState } from "react";
 import * as motion from "motion/react-client";
 import API, { BASE_URL } from "@/services/api";
+import { useFavorites } from "@/hooks/useFavorites";
+import { MdFavorite, MdFavoriteBorder } from "react-icons/md";
 
 export const ProductCard = ({ product, onClick }) => {
-  const [addFavorite, setAddFavorite] = useState(false);
-
-  const handleAddFavorite = () => {
-    setAddFavorite((prevState) => !prevState);
-  };
+  const { favIds, toggle } = useFavorites();
 
   // Helper to render stars based on the number
   const renderStars = (count) => {
@@ -36,6 +33,8 @@ export const ProductCard = ({ product, onClick }) => {
     ));
   };
 
+  const isFavorite = favIds.has(product._id);
+
   const imageUrl =
     product.images?.length > 0
       ? `${BASE_URL}/api/images/${product.images[0]}`
@@ -49,11 +48,13 @@ export const ProductCard = ({ product, onClick }) => {
         boxShadow: "0px 10px 25px rgba(0,0,0,0.15)",
       }}
       transition={{ type: "tween", stiffness: 100 }}
-      onClick={onClick}
     >
-      <Card className="w-full group relative hover:cursor-pointer max-w-none overflow-hidden shadow-md">
+      <Card className="w-full group relative max-w-none overflow-hidden shadow-md">
         {/** Image container */}
-        <div className="relative aspect-[4/5] w-full overflow-hidden">
+        <div
+          className="relative aspect-[4/5] w-full overflow-hidden hover:cursor-pointer"
+          onClick={onClick}
+        >
           {/** Stars overlay */}
           <div className="absolute top-3 right-3 z-40">
             <Badge className="flex items-center gap-1 bg-white/90 backdrop-blur-sm">
@@ -89,15 +90,20 @@ export const ProductCard = ({ product, onClick }) => {
           <span className="text-sm sm:text-lg font-bold text-orange-500 ms-0 w-full">
             Sh. {product.price}
           </span>
-          <div className="flex justify-between items-center w-full mt-5 hidden md:block">
+          <div className="flex justify-between w-full mt-5 hidden md:flex">
             <Button size="sm" variant="orange">
               Add to Cart
             </Button>
-            <Button size="sm" variant="ghost" onClick={handleAddFavorite}>
-              {addFavorite ? (
-                <FaHeart className="size-5" />
+            <Button
+              size="sm"
+              variant="ghost"
+              className="cursor-pointer"
+              onClick={() => toggle(product._id)}
+            >
+              {isFavorite ? (
+                <MdFavorite className="size-8 text-orange-700" />
               ) : (
-                <CiHeart className="size-6" />
+                <MdFavoriteBorder className="size-8 text-orange-700" />
               )}
             </Button>
           </div>
