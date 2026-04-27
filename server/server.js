@@ -3,6 +3,7 @@ const cors = require("cors");
 require("@dotenvx/dotenvx").config();
 const connectDB = require("./config/db");
 const path = require("path");
+const imageSchema = require("./models/imageSchema");
 
 const app = express();
 connectDB();
