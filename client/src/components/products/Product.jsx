@@ -5,11 +5,16 @@ import { useParams } from "react-router-dom";
 import { FieldDescription } from "../ui/field";
 import { ProductImageGallery } from "./ProductImageGallery";
 import Footer from "../sections/footer/Footer";
+import { useFetch } from "@/hooks/useFetch";
+import API, { BASE_URL } from "@/services/api";
 
 export const Product = () => {
   const [count, setCount] = useState(1);
   const [clickFavorite, setClickFavorite] = useState(false);
   const { id } = useParams();
+  const { data, error, loading } = useFetch(`/products/fetchProduct/${id}`);
+
+  const product = data?.product;
 
   const handleAdd = () => {
     setCount(count + 1);
@@ -23,18 +28,25 @@ export const Product = () => {
     setClickFavorite((prev) => !prev);
   };
 
-  const product = products.find((p) => p.id === Number(id));
+  if (loading) return <p className="text-center mt-5">Loading...</p>;
+  if (error || !product)
+    return <p className="text-center mt-5">Product not found</p>;
 
-  if (!product) return <div>Product Not Found</div>;
+  // Convert image IDs to full URLs
+  const imageUrls =
+    product.images?.map((imgId) => `${BASE_URL}/api/images/${imgId}`) || [];
+
+  const mainImage =
+    imageUrls[0] || "https://via.placeholder.com/400x500?text=No+Image";
+  
 
   return (
     <>
       <div className="flex flex-col lg:flex-row mt-4 mx-4 gap-10 mt-10 lg:mx-40">
-        
         {/** Left section */}
         <div className="flex w-full mb-5 flex-col">
           {/** Image */}
-          <ProductImageGallery images={product.images} />
+          <ProductImageGallery mainImage={mainImage} images={imageUrls} />
         </div>
 
         {/** Right section */}
@@ -89,7 +101,6 @@ export const Product = () => {
         </div>
       </div>
 
-      
       <Footer />
     </>
   );
