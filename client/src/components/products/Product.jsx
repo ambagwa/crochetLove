@@ -6,15 +6,17 @@ import { FieldDescription } from "../ui/field";
 import { ProductImageGallery } from "./ProductImageGallery";
 import Footer from "../sections/footer/Footer";
 import { useFetch } from "@/hooks/useFetch";
-import API, { BASE_URL } from "@/services/api";
+import { BASE_URL } from "@/services/api";
+import { useFavorites } from "@/hooks/useFavorites";
 
 export const Product = () => {
   const [count, setCount] = useState(1);
-  const [clickFavorite, setClickFavorite] = useState(false);
   const { id } = useParams();
   const { data, error, loading } = useFetch(`/products/fetchProduct/${id}`);
 
   const product = data?.product;
+
+  const { favIds, toggle } = useFavorites();
 
   const handleAdd = () => {
     setCount(count + 1);
@@ -24,13 +26,12 @@ export const Product = () => {
     setCount(count - 1);
   };
 
-  const handleClickFavorite = () => {
-    setClickFavorite((prev) => !prev);
-  };
-
   if (loading) return <p className="text-center mt-5">Loading...</p>;
   if (error || !product)
     return <p className="text-center mt-5">Product not found</p>;
+
+  // Check if product is on the list
+  const isFavorite = favIds.has(product._id);
 
   // Convert image IDs to full URLs
   const imageUrls =
@@ -38,7 +39,6 @@ export const Product = () => {
 
   const mainImage =
     imageUrls[0] || "https://via.placeholder.com/400x500?text=No+Image";
-  
 
   return (
     <>
@@ -58,8 +58,8 @@ export const Product = () => {
             </div>
 
             <div>
-              <Button variant="ghost" onClick={handleClickFavorite}>
-                {clickFavorite ? (
+              <Button variant="ghost" onClick={() => toggle(product._id)}>
+                {isFavorite ? (
                   <MdFavorite className="size-8 text-orange-700" />
                 ) : (
                   <MdFavoriteBorder className="size-8 text-orange-700" />
@@ -80,6 +80,7 @@ export const Product = () => {
 
           {/** Add to Cart row */}
           <div className="mt-15 flex gap-8">
+            {/**Quantity */}
             <div className="border px-2 flex border-orange gap-3 rounded">
               <button
                 onClick={handleSubtract}
@@ -92,6 +93,8 @@ export const Product = () => {
                 +
               </button>
             </div>
+
+            {/**Add to cart button */}
             <div>
               <Button variant="orange" className="p-6 text-2xl">
                 Add to Cart
