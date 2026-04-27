@@ -5,7 +5,7 @@ const FiltersSidebar = ({ onFilterChange }) => {
     search: "",
     category: "all",
     minPrice: 0,
-    maxPrice: 5000,
+    maxPrice: 10000,
     inStock: false,
     sort: "latest",
   });
@@ -22,7 +22,7 @@ const FiltersSidebar = ({ onFilterChange }) => {
       search: "",
       category: "all",
       minPrice: 0,
-      maxPrice: 5000,
+      maxPrice: 10000,
       inStock: false,
       sort: "latest",
     };
@@ -53,7 +53,7 @@ const FiltersSidebar = ({ onFilterChange }) => {
         <div className="mb-5">
           <h3 className="text-sm font-medium text-gray-600 mb-2">Categories</h3>
           <div className="flex flex-col gap-2">
-            {["all", "hats", "bags", "toys", "blankets"].map((cat) => (
+            {["all", "bag", "bedding", "style", "kids", "Home Decor"].map((cat) => (
               <button
                 className={`text-left px-3 py-2 rounded-lg capitalize transition ${
                   filters.category === cat
