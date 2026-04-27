@@ -5,61 +5,28 @@ import { useNavigate } from "react-router-dom";
 import Footer from "@/components/sections/footer/Footer";
 import { useFetch } from "@/hooks/useFetch";
 import { useEffect } from "react";
-import { div } from "motion/react-client";
 import { Spinner } from "@/components/ui/spinner";
+import { useProductFilters } from "@/hooks/useProductFilters";
 
 export const Products = () => {
   const { data, loading, error } = useFetch("/products/fetchAllProducts");
   const navigate = useNavigate();
-  const [filteredProducts, setFilteredProducts] = useState([]);
 
-  // Populate filteredProducts once data arrives
-  useEffect(() => {
-    if (data?.products) setFilteredProducts(data.products);
-    if(data?.number) console.log(data.number);
-  }, [data]);
+  const products =  data?.products || [];
+  console.log(products)
 
+  // Filter logic
+  const { filteredProducts, handleFilterChange} = useProductFilters(products);
+  
   if (loading) return (
     <div className="flex flex-col items-center justify-center mt-5">
       <Spinner className="text-orange-400" />
       <p className="mt-3">Loading ...</p>;
     </div>
   )
+  
   if (error)
     return <p className="text-center mt-5 text-red-300">Error: {error}</p>;
-
-  const products =  data?.products || [];
-
-  const handleFilterChange = (filters) => {
-    let result = [...products];
-
-    // Search
-    if (filters.search)
-      result = result.filter((p) =>
-        p.name.toLowerCase().includes(filters.search.toLowerCase()),
-      );
-
-    // Category
-    if (filters.category !== "all")
-      result = result.filter((p) => p.category === filters.category);
-
-    // Price
-    result = result.filter(
-      (p) => p.price >= filters.minPrice && p.price <= filters.maxPrice,
-    );
-
-    // Stock
-    if (filters.inStock) result = result.filter((p) => p.inStock === "true");
-
-    // Sort
-    if (filters.sort === "low") {
-      result.sort((a, b) => Number(a.price) - Number(b.price));
-    } else if (filters.sort === "high") {
-      result.sort((a, b) => Number(b.price) - Number(a.price));
-    }
-
-    setFilteredProducts(result);
-  };
 
   return (
     <>
