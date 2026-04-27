@@ -1,10 +1,8 @@
 import FiltersSidebar from "@/components/products/FiltersSidebar";
 import { ProductCard } from "@/components/products/ProductCard";
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Footer from "@/components/sections/footer/Footer";
 import { useFetch } from "@/hooks/useFetch";
-import { useEffect } from "react";
 import { Spinner } from "@/components/ui/spinner";
 import { useProductFilters } from "@/hooks/useProductFilters";
 
@@ -13,7 +11,6 @@ export const Products = () => {
   const navigate = useNavigate();
 
   const products =  data?.products || [];
-  console.log(products)
 
   // Filter logic
   const { filteredProducts, handleFilterChange} = useProductFilters(products);
