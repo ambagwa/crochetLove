@@ -1,4 +1,6 @@
+const imageSchema = require("../models/imageSchema");
 const Image = require("../models/imageSchema");
+const path = require("path");
 
 exports.uploadSingleImage = async (req, res) => {
   try {
@@ -18,5 +20,20 @@ exports.uploadSingleImage = async (req, res) => {
     });
   } catch (error) {
     res.status(500).json({ error: "Unable to upload image" });
+  }
+};
+
+exports.getImageById = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const image = await imageSchema.findById(id);
+    if (!image) return res.status(404).json({ msg: "Image NOT found" });
+
+    //path.resolve helps avoid directory issues
+    const imagePath = path.resolve(__dirname, "..", "uploads", image.filename);
+    res.sendFile(imagePath);
+  } catch (error) {
+    res.status(500).json({ error: "Unable to get iamge" });
   }
 };
