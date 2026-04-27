@@ -14,6 +14,7 @@ import { CiHeart } from "react-icons/ci";
 import { FaHeart } from "react-icons/fa";
 import { useState } from "react";
 import * as motion from "motion/react-client";
+import API, { BASE_URL } from "@/services/api";
 
 export const ProductCard = ({ product, onClick }) => {
   const [addFavorite, setAddFavorite] = useState(false);
@@ -34,6 +35,12 @@ export const ProductCard = ({ product, onClick }) => {
       />
     ));
   };
+
+  const imageUrl =
+    product.images?.length > 0
+      ? `${BASE_URL}/api/images/${product.images[0]}`
+      : "https://via.placeholder.com/400x500?text=No+Image";
+
   return (
     <motion.div
       whileHover={{
@@ -42,11 +49,9 @@ export const ProductCard = ({ product, onClick }) => {
         boxShadow: "0px 10px 25px rgba(0,0,0,0.15)",
       }}
       transition={{ type: "tween", stiffness: 100 }}
+      onClick={onClick}
     >
-      <Card
-        onClick={onClick}
-        className="w-full group relative hover:cursor-pointer max-w-none overflow-hidden shadow-md"
-      >
+      <Card className="w-full group relative hover:cursor-pointer max-w-none overflow-hidden shadow-md">
         {/** Image container */}
         <div className="relative aspect-[4/5] w-full overflow-hidden">
           {/** Stars overlay */}
@@ -57,7 +62,7 @@ export const ProductCard = ({ product, onClick }) => {
           </div>
 
           <img
-            src={product.images[0]}
+            src={imageUrl}
             alt={product.name}
             className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-110"
           />
@@ -78,14 +83,13 @@ export const ProductCard = ({ product, onClick }) => {
             ))}
           </div>
            */}
-           
         </CardHeader>
 
         <CardFooter className="flex flex-col flex-start">
           <span className="text-sm sm:text-lg font-bold text-orange-500 ms-0 w-full">
             Sh. {product.price}
           </span>
-          <div className="flex justify-between w-full mt-5 hidden md:block">
+          <div className="flex justify-between items-center w-full mt-5 hidden md:block">
             <Button size="sm" variant="orange">
               Add to Cart
             </Button>
