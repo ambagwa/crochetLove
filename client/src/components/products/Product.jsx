@@ -7,7 +7,7 @@ import { ProductImageGallery } from "./ProductImageGallery";
 import Footer from "../sections/footer/Footer";
 import { useFetch } from "@/hooks/useFetch";
 import { BASE_URL } from "@/services/api";
-import { useFavorites } from "@/hooks/useFavorites";
+import { useAuthFavorites } from "@/helpers/useAuthFavorites";
 
 export const Product = () => {
   const [count, setCount] = useState(1);
@@ -16,7 +16,7 @@ export const Product = () => {
 
   const product = data?.product;
 
-  const { favIds, toggle } = useFavorites();
+  const { favIds, toggle } = useAuthFavorites();
 
   const handleAdd = () => {
     setCount(count + 1);
