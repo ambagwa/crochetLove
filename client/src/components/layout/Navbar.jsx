@@ -7,6 +7,7 @@ import {
 import { useState } from "react";
 import logo from "../../assets/images/logo.svg";
 import { ShoppingCart } from "../cart/ShoppingCart";
+import { useFavorites } from "@/context/FavoritesContext";
 
 const NavLink = ({ children, to, onClick }) => {
   return (
@@ -51,6 +52,9 @@ const NavIconLink = ({ children, to }) => {
 export const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [cartOpen, setCartOpen] = useState(false);
+
+  const { favIds } = useFavorites();
+  const favoriteCount = favIds.size;
 
   const navItems = [
     { name: "Home", to: "/" },
@@ -142,17 +146,25 @@ export const Navbar = () => {
 
         {/*Icons */}
         <div className="items-center gap-4 font-bold hidden sm:flex">
-          {/** /wishlist icon */}
-          <NavIconLink to={"/wishlist"}>
-            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={1.5}
-                d="M11.48 3.499a.562.562 0 0 1 1.04 0l2.125 5.111a.563.563 0 0 0 .475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 0 0-.182.557l1.285 5.385a.562.562 0 0 1-.84.61l-4.725-2.885a.562.562 0 0 0-.586 0L6.982 20.54a.562.562 0 0 1-.84-.61l1.285-5.386a.562.562 0 0 0-.182-.557l-4.204-3.602a.562.562 0 0 1 .321-.988l5.518-.442a.563.563 0 0 0 .475-.345L11.48 3.5Z"
-              />
-            </svg>
-          </NavIconLink>
+          <div className="relative">
+            {/** /wishlist icon */}
+            <NavIconLink to={"/wishlist"}>
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={1.5}
+                  d="M11.48 3.499a.562.562 0 0 1 1.04 0l2.125 5.111a.563.563 0 0 0 .475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 0 0-.182.557l1.285 5.385a.562.562 0 0 1-.84.61l-4.725-2.885a.562.562 0 0 0-.586 0L6.982 20.54a.562.562 0 0 1-.84-.61l1.285-5.386a.562.562 0 0 0-.182-.557l-4.204-3.602a.562.562 0 0 1 .321-.988l5.518-.442a.563.563 0 0 0 .475-.345L11.48 3.5Z"
+                />
+              </svg>
+            </NavIconLink>
+
+            {favoriteCount > 0 && (
+              <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-orange text-[10px] text-white animate-in zoom-in">
+                {favoriteCount}
+              </span>
+            )}
+          </div>
 
           {/** /account Icon */}
           <NavIconLink to="/account">
@@ -182,7 +194,7 @@ export const Navbar = () => {
                 />
               </svg>
             </div>
-          </button> 
+          </button>
         </div>
 
         {/** Mobile view */}
@@ -213,17 +225,25 @@ export const Navbar = () => {
 
           {/*Icons */}
           <div className="flex my-6 gap-4">
-            {/** /wishlist icon */}
-            <NavIconLink to="/wishlist">
-              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={1.5}
-                  d="M11.48 3.499a.562.562 0 0 1 1.04 0l2.125 5.111a.563.563 0 0 0 .475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 0 0-.182.557l1.285 5.385a.562.562 0 0 1-.84.61l-4.725-2.885a.562.562 0 0 0-.586 0L6.982 20.54a.562.562 0 0 1-.84-.61l1.285-5.386a.562.562 0 0 0-.182-.557l-4.204-3.602a.562.562 0 0 1 .321-.988l5.518-.442a.563.563 0 0 0 .475-.345L11.48 3.5Z"
-                />
-              </svg>
-            </NavIconLink>
+            <div className="relative">
+              {/** /wishlist icon */}
+              <NavIconLink to="/wishlist">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={1.5}
+                    d="M11.48 3.499a.562.562 0 0 1 1.04 0l2.125 5.111a.563.563 0 0 0 .475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 0 0-.182.557l1.285 5.385a.562.562 0 0 1-.84.61l-4.725-2.885a.562.562 0 0 0-.586 0L6.982 20.54a.562.562 0 0 1-.84-.61l1.285-5.386a.562.562 0 0 0-.182-.557l-4.204-3.602a.562.562 0 0 1 .321-.988l5.518-.442a.563.563 0 0 0 .475-.345L11.48 3.5Z"
+                  />
+                </svg>
+              </NavIconLink>
+
+              {favoriteCount > 0 && (
+                <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-orange text-[10px] text-white">
+                  {favoriteCount}
+                </span>
+              )}
+            </div>
 
             {/** /account Icon */}
             <NavIconLink to="/account">
