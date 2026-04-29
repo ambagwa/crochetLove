@@ -5,11 +5,18 @@ import { useParams } from "react-router-dom";
 import { FieldDescription } from "../ui/field";
 import { ProductImageGallery } from "./ProductImageGallery";
 import Footer from "../sections/footer/Footer";
+import { useFetch } from "@/hooks/useFetch";
+import { BASE_URL } from "@/services/api";
+import { useAuthFavorites } from "@/helpers/useAuthFavorites";
 
 export const Product = () => {
   const [count, setCount] = useState(1);
-  const [clickFavorite, setClickFavorite] = useState(false);
   const { id } = useParams();
+  const { data, error, loading } = useFetch(`/products/fetchProduct/${id}`);
+
+  const product = data?.product;
+
+  const { favIds, toggle } = useAuthFavorites();
 
   const handleAdd = () => {
     setCount(count + 1);
@@ -19,22 +26,27 @@ export const Product = () => {
     setCount(count - 1);
   };
 
-  const handleClickFavorite = () => {
-    setClickFavorite((prev) => !prev);
-  };
+  if (loading) return <p className="text-center mt-5">Loading...</p>;
+  if (error || !product)
+    return <p className="text-center mt-5">Product not found</p>;
 
-  const product = products.find((p) => p.id === Number(id));
+  // Check if product is on the list
+  const isFavorite = favIds.has(product._id);
 
-  if (!product) return <div>Product Not Found</div>;
+  // Convert image IDs to full URLs
+  const imageUrls =
+    product.images?.map((imgId) => `${BASE_URL}/api/images/${imgId}`) || [];
+
+  const mainImage =
+    imageUrls[0] || "https://via.placeholder.com/400x500?text=No+Image";
 
   return (
     <>
       <div className="flex flex-col lg:flex-row mt-4 mx-4 gap-10 mt-10 lg:mx-40">
-        
         {/** Left section */}
         <div className="flex w-full mb-5 flex-col">
           {/** Image */}
-          <ProductImageGallery images={product.images} />
+          <ProductImageGallery mainImage={mainImage} images={imageUrls} />
         </div>
 
         {/** Right section */}
@@ -46,8 +58,8 @@ export const Product = () => {
             </div>
 
             <div>
-              <Button variant="ghost" onClick={handleClickFavorite}>
-                {clickFavorite ? (
+              <Button variant="ghost" onClick={() => toggle(product._id)}>
+                {isFavorite ? (
                   <MdFavorite className="size-8 text-orange-700" />
                 ) : (
                   <MdFavoriteBorder className="size-8 text-orange-700" />
@@ -68,6 +80,7 @@ export const Product = () => {
 
           {/** Add to Cart row */}
           <div className="mt-15 flex gap-8">
+            {/**Quantity */}
             <div className="border px-2 flex border-orange gap-3 rounded">
               <button
                 onClick={handleSubtract}
@@ -80,6 +93,8 @@ export const Product = () => {
                 +
               </button>
             </div>
+
+            {/**Add to cart button */}
             <div>
               <Button variant="orange" className="p-6 text-2xl">
                 Add to Cart
@@ -89,7 +104,6 @@ export const Product = () => {
         </div>
       </div>
 
-      
       <Footer />
     </>
   );

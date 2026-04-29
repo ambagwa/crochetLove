@@ -1,10 +1,14 @@
-import { div, img } from "motion/react-client";
-import React from "react";
+import { useEffect } from "react";
 import { useState } from "react";
 
-export const ProductImageGallery = ({ images }) => {
-  const [selectedImage, setSelectedImage] = useState(images[0]);
+export const ProductImageGallery = ({ images, mainImage }) => {
+  const [selectedImage, setSelectedImage] = useState(mainImage);
   const [isOpen, setIsOpen] = useState(false);
+
+  // Sync elected image when mainImage changes
+  useEffect(() => {
+    setSelectedImage(mainImage);
+  }, [mainImage]);
 
   return (
     <>

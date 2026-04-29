@@ -6,9 +6,10 @@ import { Login } from "./pages/Login";
 import { Products } from "./pages/Products";
 import { Register } from "./pages/Register";
 import { CustomOrderRequest } from "./pages/CustomOrderRequest";
-import Test from "./pages/Test";
 import { Product } from "./components/products/Product";
 import { Checkout } from "./components/cart/Checkout";
+import { Wishlist } from "./pages/Wishlist";
+import { FavoritesProvider } from "@/context/FavoritesContext";
 
 // Layout with Navbar
 const MainLayout = () => (
@@ -27,7 +28,7 @@ const AuthLayout = () => (
 
 const App = () => {
   return (
-    <>
+    <FavoritesProvider>
       <Toaster position="top-center" richColors />
 
       <Routes>
@@ -37,7 +38,7 @@ const App = () => {
           <Route path="products" element={<Products />} />
           <Route path="products/:id" element={<Product />} />
           <Route path="custom_orders" element={<CustomOrderRequest />} />
-          <Route path="*" element={<Test />} />
+          <Route path="wishlist" element={<Wishlist />} />
         </Route>
 
         {/**Routes without Navbar */}
@@ -47,7 +48,7 @@ const App = () => {
           <Route path="checkout" element={<Checkout />} />
         </Route>
       </Routes>
-    </>
+    </FavoritesProvider>
   );
 };
 

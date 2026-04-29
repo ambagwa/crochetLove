@@ -6,7 +6,7 @@ import { toast } from "sonner";
 import logo from "../assets/images/logo.svg";
 import API from "../services/api";
 import { Spinner } from "@/components/ui/spinner";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 export const Register = () => {
   const [formData, setFormData] = useState({
@@ -25,6 +25,10 @@ export const Register = () => {
   const [passwordStrength, setPasswordStrength] = useState(0);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
+
+  // Where to go to after login - default is home
+  const from = location.state?.from?.pathname || "/";
 
   //Check passowrd strength
   const checkPasswordStrength = (p) => {
@@ -112,7 +116,7 @@ export const Register = () => {
       // Check if token exists in response
       if (res.data.token) {
         localStorage.setItem("token", res.data.token);
-        navigate("/");
+        navigate(from, { replace: true });
         toast.success("Account created");
       } else {
         throw new Error("No token recieved from server");
