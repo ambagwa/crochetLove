@@ -10,15 +10,13 @@ import {
 import { Badge } from "../ui/badge";
 import { Button } from "../ui/button";
 import { Star } from "lucide-react";
-import { CiHeart } from "react-icons/ci";
-import { FaHeart } from "react-icons/fa";
 import * as motion from "motion/react-client";
 import API, { BASE_URL } from "@/services/api";
-import { useFavorites } from "@/hooks/useFavorites";
 import { MdFavorite, MdFavoriteBorder } from "react-icons/md";
+import { useAuthFavorites } from "@/helpers/useAuthFavorites";
 
 export const ProductCard = ({ product, onClick }) => {
-  const { favIds, toggle } = useFavorites();
+  const { favIds, toggle } = useAuthFavorites();
 
   // Helper to render stars based on the number
   const renderStars = (count) => {
