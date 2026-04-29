@@ -20,7 +20,9 @@ export const Login = () => {
   });
   const navigate = useNavigate();
   const location = useLocation();
-  const from = location.state?.from || "/";
+
+  // Where to go after login with the fallback being home
+  const from = location.state?.from.pathname || "/";
 
   const handleFormData = (e) => {
     const { name, value } = e.target;
@@ -71,7 +73,8 @@ export const Login = () => {
       });
 
       localStorage.setItem("token", res.data.token);
-      navigate(from);
+      // Return to previous page
+      navigate(from, { replace: true });
       toast.success("Welcome back");
 
       if (!res.data.token) {
@@ -182,10 +185,11 @@ export const Login = () => {
 
           <div className="text-center">
             <span className="text-xs text-gray-600">
-              Already have an account?{" "}
+              Don't have an account?{" "}
               <Link
                 className="text-xs text-blue-600 hover:text-blue-700 font-medium hover:cursor-pointer underline underline-offset-2"
                 to="/register"
+                state={{ from: location.state?.from }}
               >
                 Register
               </Link>
